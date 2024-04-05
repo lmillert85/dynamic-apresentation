@@ -17,13 +17,13 @@ export function getElementsTemplate(banner: string): ITemplate | null {
 			const json = JSON.parse(elementos);
 
 			return {
-				// name: generateRandomString(),
-				// banner: banner,
-				// width: json.width,
-				// height: json.height,
+				name: generateRandomString(),
+				banner: banner,
+				width: json.width,
+				height: json.height,
 				elementos: json.elementos,
-				aproved: false
-				// template: replaceBG(banner) ?? ''
+				aproved: false,
+				template: replaceBG(banner) ?? ''
 			};
 		}
 		return null;

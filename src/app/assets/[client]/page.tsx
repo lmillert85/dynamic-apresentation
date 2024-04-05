@@ -7,11 +7,6 @@ import Breadcrumb from '@dynamic/components/breadcrumb';
 import { BsFillGridFill } from 'react-icons/bs';
 import Folders from './components/folders';
 import * as I from './interface';
-import { useRouter } from 'next/router';
-
-const {
-    isFallback,
-} = useRouter();
 
 const AssetsClient = () => {
 	const [gotoBreadcrumb, setGotoBreadcrumb] = useState([
@@ -24,10 +19,6 @@ const AssetsClient = () => {
 	]);
 	const [isFolderViewList, setIsFolderViewList] = useState(true);
 	
-    if (isFallback) {
-        return <h1>Fallback</h1>;
-    }
-
 	return (
 		<S.Container>
 			<section className="titleButtons">

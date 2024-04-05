@@ -6,14 +6,9 @@ import Breadcrumb from '@dynamic/components/breadcrumb';
 import * as S from './style';
 import { GetCampaign, GetSheets } from '@dynamic/services/feedService';
 import { ICampaign } from '@dynamic/services/interface';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
-import { useRouter } from 'next/router';
-
-const {
-    isFallback,
-} = useRouter();
 
 const ClientCampaigns = () => {
     const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
@@ -48,10 +43,6 @@ const ClientCampaigns = () => {
             console.error('Error fetching sheets:', error);
         }
     };
-
-    if (isFallback) {
-        return <h1>Fallback</h1>;
-    }
     return (
         
         <S.Container>
