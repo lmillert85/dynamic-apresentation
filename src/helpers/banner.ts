@@ -10,19 +10,20 @@ export function getElementsTemplate(banner: string): ITemplate | null {
 			const regex = /<script id="dynamicScript">([\s\S]*?)<\/script>/;
 			const elementos = regex
 				.exec(banner)![0]
-				.replaceAll('let json = ', '')
+				.replaceAll('var json = ', '')
 				.replaceAll('<script id="dynamicScript">', '')
 				.replaceAll('</script>', '');
 
 			const json = JSON.parse(elementos);
 
 			return {
-				name: generateRandomString(),
-				banner: banner,
-				width: json.width,
-				height: json.height,
+				// name: generateRandomString(),
+				// banner: banner,
+				// width: json.width,
+				// height: json.height,
 				elementos: json.elementos,
-				template: replaceBG(banner) ?? ''
+				aproved: false
+				// template: replaceBG(banner) ?? ''
 			};
 		}
 		return null;
@@ -50,25 +51,6 @@ export function replaceBG(banner: string): string | null {
 	}
 }
 
-// export function updateHTMLBannerWithNewValues(
-// 	banner: string,
-// 	datas: Array<ITemplateElement>
-// ): string {
-// 	const html = new DOMParser().parseFromString(banner, 'text/html');
-// 	const [width, height] = useGetWidthAndHeightTemplate();
-
-// 	let json = {
-// 		width: Number.parseInt(width),
-// 		height: Number.parseInt(height),
-// 		elementos: datas
-// 	};
-
-// 	html.querySelector('#dynamicScript')!.innerHTML =
-// 		`let json = ${JSON.stringify(json)}`;
-
-// 	return html.documentElement.outerHTML.toString();
-// }
-
 export function buildCreativeLine(templateHTML: any, creative: any, index: number) {
 	 var template = templateHTML.replaceAll("</html>", "<script>\n");
 	 template += `
@@ -77,7 +59,7 @@ export function buildCreativeLine(templateHTML: any, creative: any, index: numbe
 	 		const elementos = [];
 
 	 `;
-	 creative.forEach(el => {
+	 creative.forEach((el: any) => {
 	  	if (el.tipo === 'b64') {
 	  		if (el?.value[0] === '#') {
 	  			template = template?.replaceAll(el.key, `''`);
