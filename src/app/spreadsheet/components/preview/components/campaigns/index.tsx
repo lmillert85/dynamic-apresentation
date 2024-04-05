@@ -3,12 +3,6 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import InnerHTML from '@dynamic/components/innerHTML';
 import * as S from './style';
 import * as I from './interface';
-import {
-	useLocaleSyncTemplateData,
-	useSetLocaleSyncTemplateData,
-	useGetReviewCampaigns,
-	useSetReviewCampaigns
-} from '@dynamic/hooks/localStorage';
 import { usePreviewEditModalContext } from '@dynamic/contexts/previewEditModal';
 import { useAttachModal } from '@dynamic/contexts/attachModal';
 import { useTemplateData } from '@dynamic/contexts/template';

@@ -2,10 +2,6 @@ import { usePreviewEditModalContext } from '@dynamic/contexts/previewEditModal';
 import * as S from './style';
 import { MdClose } from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import {
-useLocaleSyncTemplateData,
-useSetLocaleSyncTemplateData
-} from '@dynamic/hooks/localStorage';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import AttachModal from '../attachModal';
 import { useAttachModal } from '@dynamic/contexts/attachModal';
@@ -18,8 +14,6 @@ const PreviewEditModal = () => {
 	const [openEdit, setOpenEdit] = useState<string | null>(null);
 	const previewContext = usePreviewEditModalContext();
 	const spreadsheetData = useSpreadsheetData();
-	const setLocale = useSetLocaleSyncTemplateData;
-	const locale = useLocaleSyncTemplateData();
 	const { column, isOpen, setIsOpen, setColumn, row } = useAttachModal();
 	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
 	

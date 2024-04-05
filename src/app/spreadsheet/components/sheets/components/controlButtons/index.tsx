@@ -23,7 +23,6 @@ import { MdOutlinePlaylistAdd, MdOutlinePlaylistRemove } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { SiGooglesheets } from 'react-icons/si';
 import * as I from './interface';
-import { useSetLocaleSyncTemplateData } from '@dynamic/hooks/localStorage';
 import { useTemplateData } from '@dynamic/contexts/template';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
@@ -41,7 +40,6 @@ const ControlButtons: React.FC<I.controlButtonProps> = ({
 }) => {
 	const [historyPointer, setHistoryPointer] = useState(historyChanges.length);
 	const router = useRouter();
-	const setLocale = useSetLocaleSyncTemplateData;
 	const { activeCampaign, campaign, handleChangeCampaign, } = useCampaign();
 	const spreadsheetData = useSpreadsheetData();
 

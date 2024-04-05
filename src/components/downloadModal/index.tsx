@@ -4,7 +4,6 @@ import { Switch } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { v4 } from 'uuid';
 import JSZip from 'jszip';
-import { useTemplateWithChangedData } from '@dynamic/hooks/template';
 import { useDownloadModalContext } from '@dynamic/contexts/downloadModal';
 import * as S from './style';
 import { useCampaign } from '@dynamic/contexts/campaign';
@@ -23,7 +22,6 @@ const DownloadModal = () => {
 	const [videoPack, setVideoPack] = useState(false);
     const { isOpen, setIsOpen } = useDownloadModalContext();
 	const spreadsheetData = useSpreadsheetData();
-    const templates = useTemplateWithChangedData();
     const zip = new JSZip();
 	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
 	const refBackup = useRef<HTMLIFrameElement>(null);

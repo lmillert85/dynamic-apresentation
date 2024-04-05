@@ -3,7 +3,6 @@ import {
 	ITemplateElement
 } from '@dynamic/@types/template.interface';
 import { generateRandomString } from './utils';
-import { useGetWidthAndHeightTemplate } from '@dynamic/hooks/localStorage';
 
 export function getElementsTemplate(banner: string): ITemplate | null {
 	try {

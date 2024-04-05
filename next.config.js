@@ -7,6 +7,7 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	distDir: 'build',
 	typescript: {
 		// !! WARN !!
 		// Dangerously allow production builds to successfully complete even if

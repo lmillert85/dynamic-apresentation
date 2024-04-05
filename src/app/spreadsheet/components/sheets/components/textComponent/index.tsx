@@ -3,7 +3,6 @@ import { CellComponent, CellProps, Column } from 'react-datasheet-grid';
 import * as S from './style';
 import { useAttachModal } from '@dynamic/contexts/attachModal';
 import * as I from './interface';
-import { useLocaleSyncTemplateData, useSetLocaleSyncTemplateData } from '@dynamic/hooks/localStorage';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 

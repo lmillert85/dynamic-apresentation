@@ -5,14 +5,8 @@ import * as S from './style';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GetClients } from '@dynamic/services/feedService';
 import { useRouter } from 'next/router';
-const {
-    isFallback,
-} = useRouter();
 
-const Page = async () => {    
-    if (isFallback) {
-        return <h1>Fallback</h1>;
-    }
+const Page = async () => {  
 	return (
 		<S.Container>
             <span>
