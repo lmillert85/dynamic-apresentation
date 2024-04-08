@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { chooseTemplateProps } from '@dynamic/@types/chooseTemplate.interface';
 
 const MyTemplate = () => {
+	
 	const [selectedTemplate, setSelectedTemplate] =
 		useState<chooseTemplateProps>({
 			name: '',

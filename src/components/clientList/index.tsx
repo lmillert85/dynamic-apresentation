@@ -24,13 +24,17 @@ const ClientList: React.FC<I.RouteType> = ({ goto })  => {
 
         fetchClients();
     }, []);
+	
 
 	return (
 		<S.ClientListContainer>
 			{clients?.map((client) => (
 				<figure
 					className="clientWrapper"
-					onClick={() => router.push(`${goto}/${client.uuidv}`)}
+					onClick={() => {
+						
+						router.push(`${goto}/${client.uuidv}`);
+					}}
 					onKeyDown={() => null}
                     key={Math.random()}
 				>

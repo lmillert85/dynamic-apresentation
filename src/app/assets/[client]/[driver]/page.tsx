@@ -121,7 +121,7 @@ const Driver = () => {
 		);
 	};
 
-	console.log('01')
+	
 
 	const renderItemsView = () => {
 		if (isListView) {

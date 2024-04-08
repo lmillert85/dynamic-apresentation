@@ -14,7 +14,7 @@ const Folders: React.FC<I.FolderProps> = ({
 	const router = useRouter();
 
 	const handleChangeBreadcrumbInfo = (): void => {
-		console.log('handleChangeBreadcrumbInfo')
+		
 		router.push('/assets/vivo/driver');
 	};
 

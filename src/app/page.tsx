@@ -31,11 +31,10 @@ export default function Home() {
 			template: ""
 		})
 		setActiveClient(clients[index].uuidv);
-        // localStorage.clear();
+		
         btnChoose === 'template' && router.push('chooseTemplate');
         btnChoose === 'custom' && router.push('spreadsheet?template=custom');
     };
-
 	const { handleChangeSelectedRoute, selectedRoute } = useLateralMenu();
 	handleChangeSelectedRoute(E.contextTypes.MY_CAMPAIGNS);
 	router.push('/myCampaigns')
@@ -90,3 +89,4 @@ export default function Home() {
 		</HomeWrapper>
 	);
 }
+

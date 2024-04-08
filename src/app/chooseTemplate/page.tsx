@@ -12,6 +12,7 @@ import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { useRouter } from 'next/navigation';
 const ChooseTemplate = (): JSX.Element => {
+	
 	const [selectedTemplate, setSelectedTemplate] =
 		useState<chooseTemplateProps>({
 			name: '',
@@ -25,7 +26,7 @@ const ChooseTemplate = (): JSX.Element => {
 
 	const handleTemplateChoosed = (): void => {
 		handleChangeActiveCampaign(0);
-		// spreadsheetData.handleChangeSpreadsheetData([...campaign[0].creative]);
+		
 		router.push('/spreadsheet?template=selectedTemplate')
     };
 

@@ -5,6 +5,7 @@ import * as S from './style';
 import { BsPlus } from 'react-icons/bs';
 
 const Assets = () => {
+	
 	return (
 		<S.Container>
             <div className='title'>

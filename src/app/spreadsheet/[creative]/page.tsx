@@ -31,6 +31,7 @@ function Creative (uuidv: string) {
 		useState<IT.TabSelectedType['tabSelected']>('sheets');
 
     const html = activeCampaign === null ? "" : campaign[activeCampaign].template?.banner;
+	
     
 	return (
 		<S.Container>

@@ -12,6 +12,7 @@ import { useCampaign } from '@dynamic/contexts/campaign';
 
 const ClientCampaigns = () => {
     // const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
+	
     const spreadsheetData = useSpreadsheetData();
 	const { campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
     const router = useRouter();
@@ -33,6 +34,7 @@ const ClientCampaigns = () => {
 
     const handleClick = async (uuidv: string, index: number) => {
         try {
+            
             const sheets = await GetSheets(uuidv);
             console.log('sheets sheets:', sheets);
             spreadsheetData.setSpreadsheetData(sheets);
