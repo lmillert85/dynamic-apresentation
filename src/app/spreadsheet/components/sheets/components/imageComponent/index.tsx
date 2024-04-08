@@ -28,7 +28,7 @@ const ImageComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 			setImageName(imgName);
 		};
 
-		const handleClick = () => {
+		const handleClick = (evt: any) => {
 			setIsOpen(true);
 			setRow(rowIndex);
 			setColumn(columnIndex);
@@ -38,7 +38,7 @@ const ImageComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 			<S.BtnAssetsSearch
 				type="button"
 				value={imageName}
-				onClick={() => handleClick()}
+				onClick={(evt) => handleClick(evt)}
 				onChange={() => handleSetImageInCell()}
 			/>
 		);

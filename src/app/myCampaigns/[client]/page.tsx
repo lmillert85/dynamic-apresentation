@@ -11,9 +11,9 @@ import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 
 const ClientCampaigns = () => {
-    const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
+    // const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
     const spreadsheetData = useSpreadsheetData();
-	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
+	const { campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
     const router = useRouter();
 	const params = useParams<{ tag: string; item: string }>()
 	console.log(params)
@@ -23,7 +23,6 @@ const ClientCampaigns = () => {
             try {
                 const fetchedCampaigns = await GetCampaign('asd');
                 handleChangeCampaign(fetchedCampaigns);
-                setCampaigns(fetchedCampaigns);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
             }
@@ -79,7 +78,7 @@ const ClientCampaigns = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {campaigns.map((item: ICampaign, index: number) => (
+                    {campaign.map((item: ICampaign, index: number) => (
                         <tr key={index}>
                             <td>{item.name}</td>
                             <td>{item.created}</td>

@@ -12,7 +12,7 @@ export interface ICampaign {
     aproved: Array<number>,
     reproved: Array<number>,
     created: string,
-	template: IFeed | null,
+	template: ITemplate | null,
 	templateCols: Array<ITemplateElement>
     amount: number
 }

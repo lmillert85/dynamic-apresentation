@@ -8,6 +8,8 @@ import { AiOutlineRight } from 'react-icons/ai';
 import Steps from '@dynamic/components/steps';
 import { useClientData } from '@dynamic/contexts/client';
 import { useDynamic } from '@dynamic/contexts/dynamic';
+import { useLateralMenu } from '@dynamic/components/lateralMenu/context/lateralMenuContext';
+import * as E from '../components/lateralMenu/context/enum';
 
 export default function Home() {
 	const [btnChoose, setBtnChoose] = useState<'template' | 'custom'>();
@@ -33,6 +35,10 @@ export default function Home() {
         btnChoose === 'template' && router.push('chooseTemplate');
         btnChoose === 'custom' && router.push('spreadsheet?template=custom');
     };
+
+	const { handleChangeSelectedRoute, selectedRoute } = useLateralMenu();
+	handleChangeSelectedRoute(E.contextTypes.MY_CAMPAIGNS);
+	router.push('/myCampaigns')
 
 	return (
 		<HomeWrapper>

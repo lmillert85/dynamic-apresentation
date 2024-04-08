@@ -28,6 +28,7 @@ const LateralMenu = () => {
 
 			<ul>
 				<li
+					style={{cursor: 'not-allowed'}}
 					onClick={() =>
 						handleChangeRoute('/', E.contextTypes.NEW_CAMPAIGN)
 					}

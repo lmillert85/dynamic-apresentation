@@ -19,10 +19,18 @@ import * as IT from '@dynamic/@types/tabSelectedType.interface';
 import Spreadsheet from '../components/sheets';
 import InnerHTML from '@dynamic/components/innerHTML';
 import SpreadsheetPreview from '../components/preview';
+import { useCampaign } from '@dynamic/contexts/campaign';
 
 function Creative (uuidv: string) {
+	const { campaign, activeCampaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
+    console.log('campaign')
+    console.log(campaign)
+    console.log('activeCampaign')
+    console.log(activeCampaign)
 	const [tabView, setTabView] =
-		useState<IT.TabSelectedType['tabSelected']>('sheets');	
+		useState<IT.TabSelectedType['tabSelected']>('sheets');
+
+    const html = activeCampaign === null ? "" : campaign[activeCampaign].template?.banner;
     
 	return (
 		<S.Container>
@@ -32,9 +40,9 @@ function Creative (uuidv: string) {
                     <Spreadsheet/> :
                 tabView === 'preview' ?
                     <SpreadsheetPreview/> :
-                tabView === 'template' ?                
+                tabView === 'template' ?
                     <div style={{marginTop: '50px'}}>
-                        <InnerHTML html={"<div>teste</div>"} width={300} height={600} backup={false} />
+                        <InnerHTML html={html} width={300} height={600} backup={false} />
                     </div> :
                 <></>
             }

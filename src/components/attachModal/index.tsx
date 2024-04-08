@@ -29,6 +29,7 @@ import S21Full  from '../../../public/assets_dynamic/300x600/Samsung-Galaxy-S21-
 import EdgeFull  from '../../../public/assets_dynamic/300x600/motorola-edge-20.png';
 import G60Full  from '../../../public/assets_dynamic/300x600/Moto-g60.png';
 import { useCampaign } from '@dynamic/contexts/campaign';
+import { Iso } from '@mui/icons-material';
 
 const AttachModal = () => {
 	const [file, setFile] = useState<File>();
@@ -85,32 +86,37 @@ const AttachModal = () => {
 		  });
 	};
 
+	console.log('isOpen')
+	console.log(isOpen)
+
 	return (
-		<S.Container isOpen={isOpen} hasFile={false}>
-			<div
-				onClick={() => setIsOpen(false)}
-				style={{
-					width: '15px', height: '20px', padding: 0, fontWeight: 'bold', cursor: 'pointer',
-					position: 'absolute', right: '10px', top: '5px'}}>X</div>
-			<div className='container-asset'>
-				<span style={{height: '30px', marginLeft: '30px', fontSize: '14px', marginTop: '6px'}}>Meus Assets > VIVO > 300x600</span>
-			</div>
-			<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-				{
-					listaAssets.map((item, index) => (
-						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '30px'}} onClick={() => handleChangeFile(item, item.src.replaceAll('/_next/static/media/', ''), index)}>
-							<img src={item.src} style={{width: "60px", border: '1px solid black', padding: '20px'}}></img>
-							<span style={{fontSize: '12px', marginLeft: '20px'}}>
-								{
-								item.src.replaceAll('/_next/static/media/', '').length > 15 ?
-								 item.src.replaceAll('/_next/static/media/', '').substring(0, 15) + "....png" 
-								 : item.src.replaceAll('/_next/static/media/', '')
-							}</span>
-						</div>
-					))
-				}
-			</div>
-		</S.Container>
+		<S.Root isOpen={isOpen} >
+			<S.Container hasFile={false}>
+				<div
+					onClick={() => setIsOpen(false)}
+					style={{
+						width: '15px', height: '20px', padding: 0, fontWeight: 'bold', cursor: 'pointer',
+						position: 'absolute', right: '10px', top: '5px'}}>X</div>
+				<div className='container-asset'>
+					<span style={{height: '30px', marginLeft: '30px', fontSize: '14px', marginTop: '6px'}}>Meus Assets > VIVO > 300x600</span>
+				</div>
+				<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+					{
+						listaAssets.map((item, index) => (
+							<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '30px'}} onClick={() => handleChangeFile(item, item.src.replaceAll('/_next/static/media/', ''), index)}>
+								<img src={item.src} style={{width: "60px", border: '1px solid black', padding: '20px'}}></img>
+								<span style={{fontSize: '12px', marginLeft: '20px'}}>
+									{
+									item.src.replaceAll('/_next/static/media/', '').length > 15 ?
+									item.src.replaceAll('/_next/static/media/', '').substring(0, 15) + "....png" 
+									: item.src.replaceAll('/_next/static/media/', '')
+								}</span>
+							</div>
+						))
+					}
+				</div>
+			</S.Container>
+		</S.Root>
 	);
 };
 

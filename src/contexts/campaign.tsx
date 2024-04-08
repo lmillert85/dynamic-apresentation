@@ -8,8 +8,6 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import templateDynamic2 from '../../public/templates/vivo.template.html';
-import { getElementsTemplate } from '@dynamic/helpers/banner';
 import { ICampaign } from '@dynamic/services/interface';
 
 interface ICampaignContextProps {

@@ -2,13 +2,21 @@ import styled from 'styled-components';
 import * as I from './interface';
 import vars from '@dynamic/styles/colors.style';
 
-const Container = styled.div<I.AttachPropsStyle>`
+const Root = styled.div<I.AttachPropsRootStyle>`
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+    display: ${props => props.isOpen ? 'flex' : 'none'};
+	justify-content: center;
+	align-items: center;
+`
+
+const Container = styled.div<I.AttachPropsContainerStyle>`
 	position: absolute;
 	width: 700px;
 	height: 500px;
-	left: 70px;
-	top: 0;
-    display: ${props => props.isOpen ? 'flex' : 'flex'};
     z-index: 10;
 	overflow-y: auto;
 	border: 1px solid #707070;
@@ -100,4 +108,4 @@ const Container = styled.div<I.AttachPropsStyle>`
     }	
 `;
 
-export { Container };
+export { Container,Root };
