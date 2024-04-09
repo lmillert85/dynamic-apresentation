@@ -24,7 +24,7 @@ export default function Home() {
 		const index = clients.findIndex((x: { name: string; }) => x.name === name)
 		setNewCampaign({
 			name: campaign,
-			created: "Luiz Miller Teixeira",
+			created: "Reanimate Demo",
 			amount: 0,
 			aproved: 0,
 			disaproved: 0,
@@ -35,9 +35,6 @@ export default function Home() {
         btnChoose === 'template' && router.push('chooseTemplate');
         btnChoose === 'custom' && router.push('spreadsheet?template=custom');
     };
-	const { handleChangeSelectedRoute, selectedRoute } = useLateralMenu();
-	handleChangeSelectedRoute(E.contextTypes.MY_CAMPAIGNS);
-	router.push('/myCampaigns')
 
 	return (
 		<HomeWrapper>

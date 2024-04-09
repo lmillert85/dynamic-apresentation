@@ -17,7 +17,6 @@ const ClientCampaigns = () => {
 	const { campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
     const router = useRouter();
 	const params = useParams<{ tag: string; item: string }>()
-	console.log(params)
     
     useEffect(() => {
         const fetchCampaigns = async () => {
@@ -36,7 +35,6 @@ const ClientCampaigns = () => {
         try {
             
             const sheets = await GetSheets(uuidv);
-            console.log('sheets sheets:', sheets);
             spreadsheetData.setSpreadsheetData(sheets);
             handleChangeActiveCampaign(index);
             router.push('/spreadsheet/' + uuidv)

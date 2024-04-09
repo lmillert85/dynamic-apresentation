@@ -20,7 +20,6 @@ import Edge  from '../../../../../public/assets_dynamic/300x600/motorola-edge-20
 import G60  from '../../../../../public/assets_dynamic/300x600/Moto-g60.png';
 
 const Driver = () => {
-	console.log('Driver')
 	const [isListView, setIsListView] = useState(true);
 	const [items, setItems] = useState([
 		{

@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
@@ -29,7 +30,6 @@ const ClientCampaigns = () => {
     const handleClick = async (uuidv: string) => {
         try {
             const sheets = await GetSheets(uuidv);
-            console.log('sheets sheets:', sheets);
             spreadsheetData.setSpreadsheetData({ elementos: [], aproved: null });
         } catch (error) {
             console.error('Error fetching sheets:', error);

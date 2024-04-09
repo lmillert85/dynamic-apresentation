@@ -5,27 +5,30 @@ import { useTemplateData } from '@dynamic/contexts/template';
 import InnerHTML from '../innerHTML';
 import { ITemplate } from '@dynamic/@types/template.interface';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
+import { useEffect, useState } from 'react';
+import { GetTemplates } from '@dynamic/services/feedService';
 
 const TemplateList: React.FC<I.TemplateProps> = ({
 	shouldRedirect = false
 }) => {
 	const router = useRouter();
-	const { listaTemplates, activeTemplate, setActiveTemplate } = useTemplateData();
-	const spreadsheetData = useSpreadsheetData();
+	const { listaTemplates, setListaTemplates, activeTemplate, setActiveTemplate } = useTemplateData();
 
-	const handleAction = (template: ITemplate) => {
-		// if (shouldRedirect && activeTemplate?.name === template.name) {
-		// 	router.push('spreadsheet?template=selectedTemplate');
-		// }
+    useEffect(() => {
+        const fetchCampaigns = async () => {
+            try {
+                const fetchedTemplate = await GetTemplates();
+                setListaTemplates(fetchedTemplate);
+            } catch (error) {
+                console.error('Error fetching templates:', error);
+            }
+        };
 
-		// const dynamicFields = template.elementos.filter(
-		// 	(elem) => elem.dinamico === true
-		// );
+        fetchCampaigns();
+    }, []);
 
-		// setSyncData([dynamicFields]);
-		// setLocale(template.banner);
-		// setActiveTemplate(template);
-		// setWidthHeight(template.width, template.height);
+	const handleSelectTemplate = (template: ITemplate) => {
+		setActiveTemplate(template);
     };
 
 	return (
@@ -33,22 +36,21 @@ const TemplateList: React.FC<I.TemplateProps> = ({
 			{listaTemplates.map((template) => {
 				if (template) {
 					return (
-						<></>
-						// <div
-						// 	className={template.name}
-						// 	key={template.name}
-						// 	onClick={() => handleAction(template)}
-						// >
-						// 	<InnerHTML
-						// 		html={template.banner}
-						// 		width={template.width}
-						// 		height={template.height}
-						// 		backup={false}
-						// 		isSelected={
-						// 			activeTemplate?.name === template.name
-						// 		}
-						// 	/>
-						// </div>
+						<div
+							className={template.name}
+							key={template.name}
+							onClick={() => handleSelectTemplate(template)}
+						>
+							<InnerHTML
+								html={template.banner}
+								width={template.width}
+								height={template.height}
+								backup={false}
+								isSelected={
+									activeTemplate?.name === template.name
+								}
+							/>
+						</div>
 					);
 				}
 			})}

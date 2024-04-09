@@ -3,9 +3,6 @@
 import ClientList from '@dynamic/components/clientList';
 import * as S from './style';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { GetClients } from '@dynamic/services/feedService';
-import { useRouter } from 'next/router';
-import { useDynamic } from '@dynamic/contexts/dynamic';
 
 const Page = async () => {
 	return (

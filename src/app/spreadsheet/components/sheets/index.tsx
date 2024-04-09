@@ -18,7 +18,6 @@ import Tabs from '@dynamic/components/tabs';
 import * as IT from '@dynamic/@types/tabSelectedType.interface';
 
 function Spreadsheet () {
-	console.log('Spreadsheet Spreadsheet')
 	const spreadsheetData = useSpreadsheetData();
 	const [selectedCell, setSelectedCell] = useState<I.cellPropsWithCol>({
 		col: 0,
@@ -46,6 +45,12 @@ function Spreadsheet () {
 	)) as unknown as any;
 	const ref = useRef<DataSheetGridRef>(null);    
 	const router = useRouter();
+	console.log(spreadsheetData)
+	console.log(spreadsheetData)
+	if (spreadsheetData == undefined || !spreadsheetData.spreadsheetData || spreadsheetData.spreadsheetData.length < 0) {
+		router.push('/');
+		return <></>
+	}
     
     const cols = spreadsheetData.spreadsheetData[0].elementos.map((element) => {
         return {
@@ -66,13 +71,11 @@ function Spreadsheet () {
 
     function fixSheetSize() {        
 		var d = document.getElementsByClassName('dsg-container');
-        console.log('d[0]')
-        console.log(d.length)
 		 var height = spreadsheetData.spreadsheetData.length * 40 + 120;
 		 d[0].style.height = `${height}px`;		
 		 d[0].style.minHeight = `${500}px`;
     }
-    
+
 	return (
 		<S.Container>
 			<ControlButtons

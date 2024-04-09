@@ -23,7 +23,7 @@ const DownloadModal = () => {
     const { isOpen, setIsOpen } = useDownloadModalContext();
 	const spreadsheetData = useSpreadsheetData();
     const zip = new JSZip();
-	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
+	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage, printing, setPrinting } = useCampaign();
 	const refBackup = useRef<HTMLIFrameElement>(null);
 	const [ loading, setLoading ] = useState(false);
 
@@ -50,7 +50,7 @@ const DownloadModal = () => {
 		const zip = new JSZip();
 		for (var i = 0; i < spreadsheetData.spreadsheetData.length; i++) {
 			var creative = buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[i].elementos , i);
-			zip.file(`${campaign[activeCampaign].name}_${i}.html`, creative);
+			zip.file(`${campaign[activeCampaign].name}_${i + 1}.html`, creative);
 		}
 		 zip.generateAsync({ type: "blob" })
              .then(blob => {
@@ -70,33 +70,26 @@ const DownloadModal = () => {
 	}
 
 	async function handleBuildImage() {
+		setCurrentPage(1);
+		setPrinting(true);
+		await sleep(4000);
 		const zip = new JSZip();
-		refBackup.current.left = "-2000px";
-		refBackup.current.opacity = "1";
-		console.log('campaign')
-		console.log(campaign)
 		for (var i = 0; i < spreadsheetData.spreadsheetData.length; i++) {
-			// for (var i = 0; i < campaign[activeCampaign].creative.length; i++) {
+			console.log(i, currentPage * 4)
+			if (i >= currentPage * 4) {
+				setCurrentPage(currentPage + 1);
+				setLoading(true);
+				await sleep(4000);
+			}
 			var html = buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[i].elementos , i);
 			html = html.replaceAll("animaBanner();", "//animaBanner();");
 			html = html.replaceAll("//backup();", "backup();");
-			refBackup.current.srcdoc = html.toString();
-			// refBackup.current?.src = html.toString();
-			refBackup.current.width = `${campaign[activeCampaign].template.width}px`;
-			refBackup.current.height = `${campaign[activeCampaign].template.height}px`;
-			refBackup.current.border = 'none';
-			// refBackup.current.style.pointerEvents = 'none';
-			// refBackup.current.style.border = 'none';
-			await sleep(1000);
-			var div = document.getElementById('backup-iframe');
+			var div = document.getElementById(`backup-iframe-${i}`);
 			var image = await PrintElement(div);
   			const blobimage = dataURItoBlob(image);
-			zip.file(`${campaign[activeCampaign].name}_${i}.png`, blobimage);
+			zip.file(`${campaign[activeCampaign].name}_${i + 1}.png`, blobimage);
 		}
-		refBackup.current.srcdoc = "";
-		refBackup.current.zIndex = "-9999";
-		refBackup.current.opacity = "0";
-		refBackup.current.left = "-2000px";
+		setPrinting(false);
 		zip.generateAsync({ type: "blob" })
              .then(blob => {
                  const url = window.URL.createObjectURL(blob);
@@ -187,8 +180,6 @@ const DownloadModal = () => {
 			  if (receberVideo.finalizado) {
 				base64.base64 = receberVideo.base64;
 				base64.ext = receberVideo.ext;
-				console.log('base64')
-				console.log(base64)
 				downloadVideo(base64.base64, `300x600-30-1.mp4`);
 				break;
 			  }
@@ -227,6 +218,7 @@ const DownloadModal = () => {
 					<label>
 						<span>Pack de video </span>
 						<Switch
+							disabled={true}
 							checked={videoPack}
 							onChange={() => setVideoPack(!videoPack)}
 						/>
@@ -237,9 +229,9 @@ const DownloadModal = () => {
 					Baixar
 				</button>
 			</div>
-			<div style={{left: '-9999px', position: 'absolute'}}>
+			{/* <div style={{left: '-9999px', position: 'absolute'}}>
 				<iframe id="backup-iframe" ref={refBackup}></iframe>
-			</div>
+			</div> */}
 		</S.Container>
 	);
 };

@@ -2,8 +2,10 @@ import { useEffect, useRef } from 'react';
 import { Container } from './style';
 import * as I from './interface';
 import vars from '@dynamic/styles/colors.style';
+import { useCampaign } from '@dynamic/contexts/campaign';
 
 const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I.InnerHTMLProps) => {
+	const { printing } = useCampaign();
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	if (backup) {
 		html = html.replaceAll("animaBanner();", "//animaBanner();");
@@ -35,7 +37,7 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
         }
 	}, [html, isSelected]);
 
-	return <Container id={"creative_" + index + "_backup"} key={html} ref={iframeRef} />;
+	return <Container style={{position: backup ? 'absolute' : 'relative', left: '0', top: '0', zIndex: backup ? -9999 : 1}} id={backup ? `backup-iframe-${index}` : ''} key={html} ref={iframeRef} />;
 };
 
 export default InnerHTML;

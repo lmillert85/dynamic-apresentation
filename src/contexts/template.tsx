@@ -16,6 +16,7 @@ interface ITemplateContextProps {
 	listaTemplates: Array<ITemplate | null>;
 	activeTemplate: ITemplate | null;
     setActiveTemplate: Dispatch<SetStateAction<ITemplate>>;
+    setListaTemplates: Dispatch<SetStateAction<Array<ITemplate>>>;
 }
 
 const TemplateDataContext = createContext({} as ITemplateContextProps);

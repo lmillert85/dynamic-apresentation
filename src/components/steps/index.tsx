@@ -3,14 +3,13 @@ import { StepWrapper } from './style';
 import React from 'react';
 
 interface ISteps {
-    activeStep: 0 | 1 | 2;
+    activeStep: 0 | 1;
 }
 
 const Steps: React.FC<ISteps> = ({ activeStep }) => {
     const steps = [
         'step 1',
-        'step 2',
-        'step 3'
+        'step 2'
     ];
 
 	return (

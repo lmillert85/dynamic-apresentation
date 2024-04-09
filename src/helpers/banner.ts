@@ -4,7 +4,7 @@ import {
 } from '@dynamic/@types/template.interface';
 import { generateRandomString } from './utils';
 
-export function getElementsTemplate(banner: string): ITemplate | null {
+export function getElementsTemplate(banner: string): ITemplate {
 	try {
 		if (banner) {
 			const regex = /<script id="dynamicScript">([\s\S]*?)<\/script>/;
@@ -43,6 +43,7 @@ export function replaceBG(banner: string): string | null {
 		}
 
 		banner = banner.replaceAll('/*backgroundDynamic:', 'background:');
+		banner = banner.replaceAll('no-repeat;*/', 'no-repeat;');		
 		banner = banner.replaceAll('#*/', '#;');
 
 		return banner;
@@ -57,7 +58,6 @@ export function buildCreativeLine(templateHTML: any, creative: any, index: numbe
 	 	function build() {
 	 		var divs = banner.querySelectorAll('*');
 	 		const elementos = [];
-
 	 `;
 	 creative.forEach((el: any) => {
 	  	if (el.tipo === 'b64') {
@@ -85,6 +85,7 @@ export function buildCreativeLine(templateHTML: any, creative: any, index: numbe
 	  `
 	  template += "</script>\n</html>";
 	  template = template.replaceAll("'') no-repeat;;", "') no-repeat;");
+	  
 	return template;
 }
 

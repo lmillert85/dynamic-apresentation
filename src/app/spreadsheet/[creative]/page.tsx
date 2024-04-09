@@ -22,17 +22,12 @@ import SpreadsheetPreview from '../components/preview';
 import { useCampaign } from '@dynamic/contexts/campaign';
 
 function Creative (uuidv: string) {
-	const { campaign, activeCampaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
-    console.log('campaign')
-    console.log(campaign)
-    console.log('activeCampaign')
-    console.log(activeCampaign)
+	const { campaign, activeCampaign } = useCampaign();
 	const [tabView, setTabView] =
 		useState<IT.TabSelectedType['tabSelected']>('sheets');
 
     const html = activeCampaign === null ? "" : campaign[activeCampaign].template?.banner;
-	
-    
+	    
 	return (
 		<S.Container>
 			<Tabs tabSelected={tabView} setTabView={setTabView} />

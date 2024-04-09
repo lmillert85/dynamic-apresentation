@@ -14,12 +14,11 @@ import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 
 const PreviewPagination = () => {
 	const spreadsheetData = useSpreadsheetData();
-    const [currentPage, setCurrentPage] = useState(1);
 	const [allPages, setAllPages] = useState(Math.ceil(spreadsheetData.spreadsheetData.length / 4));
 	const [pages, setPages] = useState<Array<JSX.Element>>([]);
 	const previewEditModal = usePreviewEditModalContext();
 	const refBackup = useRef<HTMLIFrameElement>(null);
-	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
+	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage } = useCampaign();
 	
 	const renderPages = () => {
 		const helper = [];
@@ -42,12 +41,10 @@ const PreviewPagination = () => {
 
 	const renderPreviews = () => {
 		return spreadsheetData.spreadsheetData.map((_, index) => {
-			console.log('spreadsheetData')
-			console.log(spreadsheetData)
 			if (activeCampaign === null) return;
-			let helper = 4 * currentPage;
+			let helper = 4 * (currentPage - 1);
 			let divider = helper === 4 ? 5 : 2;
-			if (index < helper && index >= Math.floor(helper / divider)) {
+			if (index >= helper && index < helper + 4) {
 				return <Campaigns key={uuidv4()} index={index} />;
 			}
 

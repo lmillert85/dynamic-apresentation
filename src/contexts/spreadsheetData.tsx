@@ -27,9 +27,6 @@ const SpreadsheetDataProvider = ({ children }: PropsWithChildren) => {
 	);
 	
 	useEffect(() => {
-		console.log('effect spread')
-		console.log('spreadsheetData')
-		console.log(spreadsheetData)
 	}, [spreadsheetData]);
 
 	return (

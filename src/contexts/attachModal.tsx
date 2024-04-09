@@ -4,6 +4,7 @@ import {
 	SetStateAction,
 	createContext,
 	useContext,
+	useEffect,
 	useMemo,
 	useState
 } from 'react';
@@ -40,6 +41,10 @@ const AttachModalProvider = ({ children }: PropsWithChildren) => {
 		}),
 		[isOpen, row, column, setIsOpen, setColumn, setRow, page, setPage]
 	);
+	
+	useEffect(() => {
+		console.log('AttachModalContext')
+    }, []);
 
 	return (
 		<AttachModalContext.Provider value={isOpenMemoized}>

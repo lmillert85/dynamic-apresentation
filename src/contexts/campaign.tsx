@@ -15,6 +15,10 @@ interface ICampaignContextProps {
 	campaign: Array<ICampaign>;
 	handleChangeCampaign: (context: Array<ICampaign>) => void;
 	handleChangeActiveCampaign: (context: number | null) => void;
+	currentPage: number;
+	setCurrentPage: (context: number) => void;
+	printing: boolean;
+	setPrinting: (context: boolean) => void;
 }
 
 const CampaignContext = createContext(
@@ -23,6 +27,8 @@ const CampaignContext = createContext(
 
 const CampaignDataProvider = ({ children }: PropsWithChildren) => {
 	const [activeCampaign, setActiveCampaign] = useState<number | null>(null);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [printing, setPrinting] = useState<boolean>(false);
 	const [campaign, setCampaign] = useState<Array<ICampaign>>([]);
 
 	const handleChangeCampaign = useCallback(
@@ -40,8 +46,8 @@ const CampaignDataProvider = ({ children }: PropsWithChildren) => {
 
 
 	const campaignMemoized = useMemo(
-		() => ({ campaign, handleChangeCampaign, activeCampaign, handleChangeActiveCampaign }),
-		[campaign, handleChangeCampaign, activeCampaign, handleChangeActiveCampaign]
+		() => ({ campaign, handleChangeCampaign, activeCampaign, handleChangeActiveCampaign, currentPage, setCurrentPage, printing, setPrinting }),
+		[ campaign, handleChangeCampaign, activeCampaign, handleChangeActiveCampaign, currentPage, setCurrentPage, printing, setPrinting ]
 	);
 	return (
 		<CampaignContext.Provider value={campaignMemoized}>

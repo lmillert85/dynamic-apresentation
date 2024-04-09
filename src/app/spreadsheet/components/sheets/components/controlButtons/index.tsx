@@ -78,40 +78,28 @@ const ControlButtons: React.FC<I.controlButtonProps> = ({
 	};
 
 	const handleUndoAndRedo = (type: 'undo' | 'redo'): void => {
-		if (type === 'redo' && historyPointer === historyChanges.length - 1)
-			return;
+		// if (type === 'redo' && historyPointer === historyChanges.length - 1)
+		// 	return;
 
-		const helper = [...data];
-		const index = historyPointer - 1 < 0 ? 0 : calcUndoRedo(type);
-		const { colId, row, value } = historyChanges[index];
+		// const helper = [...data];
+		// const index = historyPointer - 1 < 0 ? 0 : calcUndoRedo(type);
+		// const { colId, row, value } = historyChanges[index];
 
-		helper[row][colId] = value;
+		// helper[row][colId] = value;
 
-		setHistoryPointer(() => calcUndoRedo(type));
-		setData([...helper]);
+		// setHistoryPointer(() => calcUndoRedo(type));
+		// setData([...helper]);
 	};
 
 	const handleAddOrRemoveRow = (type: 'add' | 'remove'): void => {
 		try {
 			var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
-			console.log('copyspreadsheetData')
-			console.log(copyspreadsheetData)
-			copyspreadsheetData.push(copyspreadsheetData[0]);
+			if (type === 'add') {
+				copyspreadsheetData.push(copyspreadsheetData[0]);
+			} else if (type === 'remove' && copyspreadsheetData.length > 1) {
+				copyspreadsheetData.pop();
+			}
 			spreadsheetData.setSpreadsheetData(copyspreadsheetData);
-			// const helper = data.slice();
-			// if (helper.length <= 0 && type === 'remove') return;
-			// if (activeCampaign === null) return;
-			// var copyCampaign = JSON.parse(JSON.stringify(campaign));
-			// if (type === 'add') {
-			// 	copyCampaign[activeCampaign].creative.push(copyCampaign[activeCampaign].templateCols);
-			// 	helper.push(copyCampaign[activeCampaign].templateCols);
-			// } else {
-			// 	copyCampaign[activeCampaign].creative.pop();
-			// 	helper.pop();
-			// }
-			// handleChangeCampaign(copyCampaign);
-			// setData([...helper]);
-			// setLocale(helper);
 		} catch (error) {
 			console.log('error')
 			console.log(error)
@@ -165,6 +153,7 @@ const ControlButtons: React.FC<I.controlButtonProps> = ({
 						onClick={() => handleAddOrRemoveRow('add')}
 					/>
 					<MdOutlinePlaylistRemove
+						style={{ cursor: spreadsheetData.spreadsheetData.length <= 1 ? 'not-allowed' : 'pointer'}}
 						title="Remover linha"
 						onClick={() => handleAddOrRemoveRow('remove')}
 					/>

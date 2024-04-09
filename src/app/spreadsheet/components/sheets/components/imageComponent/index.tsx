@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CellComponent, CellProps, Column } from 'react-datasheet-grid';
 import * as S from './style';
 import { useAttachModal } from '@dynamic/contexts/attachModal';
@@ -12,8 +12,9 @@ const ImageComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 			return spreadsheetData.spreadsheetData[rowIndex].elementos[columnIndex].imageName;
 		});
 		const { setIsOpen, setRow, setColumn } = useAttachModal();
-	
+
 		const handleSetImageInCell = () => {
+			const spreadsheetData = useSpreadsheetData();
 			const row = spreadsheetData.spreadsheetData[rowIndex];
 			let imgName = '';
 			if (row !== null && columnIndex !== null && row.elementos[columnIndex]) {
@@ -24,7 +25,6 @@ const ImageComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 			} else {
                 imgName = '-'
             }
-
 			setImageName(imgName);
 		};
 
@@ -33,6 +33,10 @@ const ImageComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 			setRow(rowIndex);
 			setColumn(columnIndex);
 		};
+
+		useEffect(() => {
+			setImageName(spreadsheetData.spreadsheetData[rowIndex].elementos[columnIndex].imageName);
+		});
 
 		return (
 			<S.BtnAssetsSearch

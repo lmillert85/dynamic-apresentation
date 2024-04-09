@@ -78,8 +78,8 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 					/>
 				</span>
 			</section>
-
 			<InnerHTML html={html} width={300} height={600} backup={false} />
+			<InnerHTML html={html} width={300} height={600} backup={true} index={index} />
 
 			<button type="button" onClick={() => handleEditButtonClick()}>
 				Editar

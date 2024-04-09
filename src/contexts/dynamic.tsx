@@ -24,7 +24,6 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
 
 	useLayoutEffect(() => {
 		console.log('loading')
-		console.log(loading)
 	}, [loading])
 	
 	const isOpenMemoized = useMemo(

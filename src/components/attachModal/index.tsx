@@ -48,36 +48,17 @@ const AttachModal = () => {
 			return response.blob();
 		  })
 		  .then(blob => {
-			console.log('01')
 			const reader = new FileReader();
 			reader.onload = () => {
 				if (activeCampaign === null) return;
-				// const clone = [...(locale as Array<any>)];				
 				var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
-				console.log('copyspreadsheetData')
-				console.log(copyspreadsheetData)
-				console.log('row')
-				console.log(row)
 				const keys = Object.keys(copyspreadsheetData[0].elementos);
 				const key = keys[column];
 				const b64ImageResult = reader.result;
-				console.log('row')
-				console.log(row)
-				console.log('key')
-				console.log(key)
 				copyspreadsheetData[row].elementos[key].value = b64ImageResult;
 				copyspreadsheetData[row].elementos[key].imageName = fileName;
 				spreadsheetData.setSpreadsheetData(copyspreadsheetData);
 				setIsOpen(false);
-				// var copyCampaign = JSON.parse(JSON.stringify(campaign));
-				// copyCampaign[activeCampaign].creative[row][key].value = b64ImageResult;
-				// copyCampaign[activeCampaign].creative[row][key].imageName = fileName;
-				// spreadsheetData.values[row][key].value = b64ImageResult;
-				// spreadsheetData.values[row][key].imageName = fileName;
-				// spreadsheetData.handleChangeSpreadsheetData([...spreadsheetData.values]);
-				// handleChangeCampaign(copyCampaign);
-				// setLocale([...spreadsheetData.values]);
-				// setIsOpen(false);
 			};
 			reader.readAsDataURL(blob);
 		  })
@@ -85,9 +66,6 @@ const AttachModal = () => {
 			console.error('Erro:', error);
 		  });
 	};
-
-	console.log('isOpen')
-	console.log(isOpen)
 
 	return (
 		<S.Root isOpen={isOpen} >

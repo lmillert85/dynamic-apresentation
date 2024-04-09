@@ -25,9 +25,8 @@ const ChooseTemplate = (): JSX.Element => {
 	const { activeCampaign, campaign, handleChangeActiveCampaign } = useCampaign();
 
 	const handleTemplateChoosed = (): void => {
-		handleChangeActiveCampaign(0);
-		
-		router.push('/spreadsheet?template=selectedTemplate')
+		// handleChangeActiveCampaign(0);
+		router.push('/myCampaigns/422eb33a-a5fb-4922-9424-5e51ba94ba49')
     };
 
 	return (

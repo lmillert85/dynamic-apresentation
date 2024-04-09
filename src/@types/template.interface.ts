@@ -1,11 +1,11 @@
 export interface ITemplate {
-	// banner: string;
-	// template: string;
+	banner: string;
+	template: string;
 	elementos: Array<ITemplateElement>;
     aproved: boolean | null;
-	// name: string;
-    // width: any;
-    // height: any;
+	name: string;
+    width: any;
+    height: any;
 }
 
 export interface ITemplateElement {
