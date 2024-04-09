@@ -29,9 +29,9 @@ export async function GetClients(uuidv: string): Promise<Array<IClients>> {
 
 export function GetCampaign(uuidv: string): Promise<Array<ICampaign>> {
 	return new Promise((resolve, reject) => {
+		console.log('templateDynamic2.toString()')
+		console.log(templateDynamic2.toString())
 		var template = getElementsTemplate(templateDynamic2.toString());
-		console.log('template')
-		console.log(template.template)
 		var t1: Array<Array<ITemplateElement>> = [
 			[
 				{

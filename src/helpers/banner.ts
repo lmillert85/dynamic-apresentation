@@ -35,7 +35,7 @@ export function getElementsTemplate(banner: string): ITemplate {
 
 export function replaceBG(banner: string): string | null {
 	try {
-		console.log('banner')
+		console.log('banner 1')
 		console.log(banner)
 		let matches = true;
 		while (matches) {
