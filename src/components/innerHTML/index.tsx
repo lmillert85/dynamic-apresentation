@@ -10,6 +10,8 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
 	if (backup) {
 		html = html.replaceAll("animaBanner();", "//animaBanner();");
 		html = html.replaceAll("//backup();", "backup();");
+		console.log('html')
+		console.log(html)
 	}
 	useEffect(() => {
 
