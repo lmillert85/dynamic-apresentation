@@ -47,7 +47,8 @@ export function replaceBG(banner: string): string | null {
 		console.log('banner2')
 		console.log(banner)
 
-		banner = banner.replaceAll('/*backgroundDynamic:', 'background:');
+		banner = banner.replaceAll('backgroundDynamic:', 'background:');
+		banner = banner.replaceAll('/*background:', 'background:');
 		
 		console.log('banner3')
 		console.log(banner)
