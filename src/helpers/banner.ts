@@ -59,13 +59,23 @@ export function buildCreativeLine(templateHTML: any, creative: any, index: numbe
 	 		var divs = banner.querySelectorAll('*');
 	 		const elementos = [];
 	 `;
+	 console.log('creative')
+	 console.log(creative)
 	 creative.forEach((el: any) => {
-	  	if (el.tipo === 'b64') {
+		 if (el.tipo === 'b64') {
+			console.log('el')
+			console.log(el)
+			console.log('template antes')
+			console.log(template)
 	  		if (el?.value[0] === '#') {
+				console.log('01')
 	  			template = template?.replaceAll(el.key, `''`);
 	  		} else {
-	  			template = template?.replaceAll(el.key, `url('${el.value}') no-repeat;`);
+				console.log('02')
+				template = template?.replaceAll(el.key, `url('${el.value}') no-repeat;`);
 	  		}
+			console.log('template depois')
+			console.log(template)
 	  	} else if (el.tipo === 'text') {
 	  		template += `
 	  			elementos.push({id: '${el.id}', value: '${el.value}'});
