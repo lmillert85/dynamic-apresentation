@@ -37,7 +37,7 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
         }
 	}, [html, isSelected]);
 
-	return <Container style={{position: backup ? 'absolute' : 'relative', left: '0', top: '0', zIndex: backup ? -9999 : 1}} id={backup ? `backup-iframe-${index}` : ''} key={html} ref={iframeRef} />;
+	return <Container style={{position: backup ? 'absolute' : 'relative', left: '0', top: '0', zIndex: backup ? 1 : 1}} id={backup ? `backup-iframe-${index}` : ''} key={html} ref={iframeRef} />;
 };
 
 export default InnerHTML;
