@@ -1,4 +1,4 @@
-import { IFeed } from '@dynamic/services/interface';
+import { ICreative } from '@dynamic/services/interface';
 import {
 	PropsWithChildren,
 	createContext,
@@ -10,8 +10,8 @@ import {
 } from 'react';
 
 interface ISpreadsheetDataContextProps {
-	spreadsheetData: Array<IFeed>;
-	setSpreadsheetData: (context: Array<IFeed>) => void;
+	spreadsheetData: Array<ICreative>;
+	setSpreadsheetData: (context: Array<ICreative>) => void;
 }
 
 const SpreadsheetDataContext = createContext(
@@ -19,7 +19,7 @@ const SpreadsheetDataContext = createContext(
 );
 
 const SpreadsheetDataProvider = ({ children }: PropsWithChildren) => {
-	const [spreadsheetData, setSpreadsheetData] = useState<Array<IFeed>>();
+	const [spreadsheetData, setSpreadsheetData] = useState<Array<ICreative>>();
 
 	const spreadsheetMemoized = useMemo(
 		() => ({ spreadsheetData, setSpreadsheetData }),

@@ -23,9 +23,9 @@ import { MdOutlinePlaylistAdd, MdOutlinePlaylistRemove } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { SiGooglesheets } from 'react-icons/si';
 import * as I from './interface';
-import { useTemplateData } from '@dynamic/contexts/template';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
+import { PostRowSheets } from '@dynamic/services/feedService';
 
 const ControlButtons: React.FC<I.controlButtonProps> = ({
 	selectedCell,
@@ -91,13 +91,15 @@ const ControlButtons: React.FC<I.controlButtonProps> = ({
 		// setData([...helper]);
 	};
 
-	const handleAddOrRemoveRow = (type: 'add' | 'remove'): void => {
+	const handleAddOrRemoveRow = async (type: 'add' | 'remove'): void => {
 		try {
 			var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
 			if (type === 'add') {
 				copyspreadsheetData.push(copyspreadsheetData[0]);
+				await PostRowSheets('123456', 'add');
 			} else if (type === 'remove' && copyspreadsheetData.length > 1) {
 				copyspreadsheetData.pop();
+				await PostRowSheets('123456', 'remove');
 			}
 			spreadsheetData.setSpreadsheetData(copyspreadsheetData);
 		} catch (error) {

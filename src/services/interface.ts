@@ -27,9 +27,14 @@ export interface ITemplateElement {
     imageName?: string;
 }
 
-export interface IFeed {
+export interface ICreative {
 	elementos: Array<ITemplateElement>;
     aproved: boolean | null;
+    uuidv: string
+}
+
+export interface IFeed {
+    sheets: Array<ICreative>;
     uuidv: string
 }
 
@@ -48,4 +53,12 @@ export interface IAssets {
     type: string;
     updatedAt: string;
     size: string;
+}
+
+export interface IUpdateFeed {
+    row: number;
+    column: number;
+    value: string;
+    imageName: string | null;
+    uuidv: string;
 }

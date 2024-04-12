@@ -35,8 +35,6 @@ export function getElementsTemplate(banner: string): ITemplate {
 
 export function replaceBG(banner: string): string | null {
 	try {
-		console.log('banner 1')
-		console.log(banner)
 		let matches = true;
 		while (matches) {
 			let regex = /background: url\(data:(.*?)\) no-repeat;/g;
@@ -44,20 +42,11 @@ export function replaceBG(banner: string): string | null {
 			banner = banner.replace(regex, '');
 		}
 
-		console.log('banner2')
-		console.log(banner)
-
 		banner = banner.replaceAll('backgroundDynamic:', 'background:');
 		banner = banner.replaceAll('/*background:', 'background:');
 		
-		console.log('banner3')
-		console.log(banner)
 		banner = banner.replaceAll('no-repeat;*/', 'no-repeat;');
-		console.log('banner4')
-		console.log(banner)
 		banner = banner.replaceAll('#*/', '#;');
-		console.log('banner5')
-		console.log(banner)
 
 		return banner;
 	} catch {

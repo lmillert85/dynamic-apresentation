@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import { useAttachModal } from '@dynamic/contexts/attachModal';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
+import { IUpdateFeed } from '@dynamic/services/interface';
+import { PostChangeSheets } from '@dynamic/services/feedService';
 
 const PreviewEditModal = () => {
 	const [columns, setColumns] = useState<Array<string>>([]);
@@ -27,10 +29,18 @@ const PreviewEditModal = () => {
 	}, [previewContext.isOpen]);
 
 
-	const changeText = (index: number, newValue: string) => {
+	const changeText = async (index: number, newValue: string) => {
 		var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
 		copyspreadsheetData[previewContext.index].elementos[index].value = newValue;
 		spreadsheetData.setSpreadsheetData(copyspreadsheetData);
+		var update: IUpdateFeed = {
+			row: previewContext.index,
+			column: index,
+			value: newValue,
+			imageName: null,
+			uuidv: 'teste'
+		};
+		await PostChangeSheets(update);
 	};
 
 	function handleEditImage(index: number) {

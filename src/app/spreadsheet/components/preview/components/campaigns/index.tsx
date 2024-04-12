@@ -10,6 +10,7 @@ import { buildCreativeLine } from '@dynamic/helpers/banner';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { Compress, getBase64Size, toImage } from '@dynamic/helpers/printElement';
+import { PostAproved } from '@dynamic/services/feedService';
 
 const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	const [review, setReview] = useState<I.reviewType>('InAnalysis');
@@ -19,7 +20,7 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
 	const html = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[index].elementos , index) : "";
 	
-	const handleReviewCampaign = (index: number, rev: I.reviewType) => {
+	const handleReviewCampaign = async (index: number, rev: I.reviewType) => {
 		if (activeCampaign === null) return;		
 		var copyCampaign = JSON.parse(JSON.stringify(campaign));
 		var indexAproved : number = copyCampaign[activeCampaign].aproved.findIndex(x => x === index);
@@ -29,12 +30,14 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 			if (indexAproved === -1) copyCampaign[activeCampaign].aproved.push(index)
 			else copyCampaign[activeCampaign].aproved.splice(indexAproved, 1);
 			if (indexReproved !== -1) copyCampaign[activeCampaign].reproved.splice(indexReproved, 1);
+			await PostAproved(copyCampaign[activeCampaign].aproved, rev, "uuidv");
+
 		} if (rev === 'Reproved') {
 			if (indexReproved === -1) copyCampaign[activeCampaign].reproved.push(index)
 			else copyCampaign[activeCampaign].reproved.splice(indexReproved, 1);
 			if (indexAproved !== -1) copyCampaign[activeCampaign].aproved.splice(indexAproved, 1);
+			await PostAproved(copyCampaign[activeCampaign].reproved, rev, "uuidv");
 		}
-
 		handleChangeCampaign(copyCampaign);
 		// var index = spreadsheetData.values.elementos
 		// setReviewedCampaigns(rev, index);

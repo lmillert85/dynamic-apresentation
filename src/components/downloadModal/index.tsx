@@ -8,7 +8,7 @@ import { useDownloadModalContext } from '@dynamic/contexts/downloadModal';
 import * as S from './style';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { buildCreativeLine, downloadVideo, videoScriptTimeline } from '@dynamic/helpers/banner';
-import { sleep } from '@dynamic/helpers/utils';
+import { b64toBlob, generateFileName, sleep } from '@dynamic/helpers/utils';
 import { PrintElement, dataURItoBlob } from '@dynamic/helpers/printElement';
 import { CriarPasta, EnviarHtmlVideo, ReceberVideo } from '@dynamic/services/videoService';
 import { VideoModel } from './interface';
@@ -108,83 +108,104 @@ const DownloadModal = () => {
 	}
 
 	async function handleVideo() {
-		var htmlText = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign], 0) : "";
-		
-		let txt = htmlText.replaceAll("animabanner()", "//animabanner()");
-		txt = txt.replaceAll("backup();", "//backup();");
-		txt = txt.replaceAll("function //animabanner() {", "function animabanner() {");
-		txt = txt.replaceAll("function //animabanner(){", "function animabanner() {");
-		txt = txt.replaceAll("function //animabanner()", "function animabanner()");
-		txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
-		var animation = txt
-            .split("//#TIMELINE#")[1]
-			.split("//#TIMELINE_FIM#")[0]
-            .replaceAll("\n", "")
-            .replaceAll("\r", "")
-            .replaceAll(" ", "")
-            .replaceAll("\"", "")
-            .replaceAll("[", "")
-            .replaceAll("]", "")
-            .replaceAll("(", "")
-            .replaceAll("//", "")
-            .replaceAll("timeline.animationElements", "");
-		var timeline = animation.split(");")
-		const delays = [];
-		for (var w = 0; w < timeline.length; w++) {
-			var t = timeline[w].split(",");
-			try {
-			var el = {
-				name: t[1].replaceAll(" ", "").replace(".", "").replaceAll("\"", ""),
-				animation: t[0].replaceAll(" ", ""),
-				delay: t[2].replaceAll(" ", "").replaceAll("\"", ""),
-				type: t[3].replaceAll(" ", "").replaceAll("\"", "")
+		const zip = new JSZip();
+		for (var j = 0; j < spreadsheetData.spreadsheetData.length; j++) {
+			var htmlText = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[j].elementos , j) : "";
+			let txt = htmlText.replaceAll("animabanner()", "//animabanner()");
+			txt = txt.replaceAll("backup();", "//backup();");
+			txt = txt.replaceAll("function //animabanner() {", "function animabanner() {");
+			txt = txt.replaceAll("function //animabanner(){", "function animabanner() {");
+			txt = txt.replaceAll("function //animabanner()", "function animabanner()");
+			txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
+			var animation = txt
+				.split("//#TIMELINE#")[1]
+				.split("//#TIMELINE_FIM#")[0]
+				.replaceAll("\n", "")
+				.replaceAll("\r", "")
+				.replaceAll(" ", "")
+				.replaceAll("\"", "")
+				.replaceAll("[", "")
+				.replaceAll("]", "")
+				.replaceAll("(", "")
+				.replaceAll("//", "")
+				.replaceAll("timeline.animationElements", "");
+			var timeline = animation.split(");")
+			const delays = [];
+			for (var w = 0; w < timeline.length; w++) {
+				var t = timeline[w].split(",");
+				try {
+				var el = {
+					name: t[1].replaceAll(" ", "").replace(".", "").replaceAll("\"", ""),
+					animation: t[0].replaceAll(" ", ""),
+					delay: t[2].replaceAll(" ", "").replaceAll("\"", ""),
+					type: t[3].replaceAll(" ", "").replaceAll("\"", "")
+				}
+				if (el.name && el.name.toLowerCase() != "banner") delays.push(el)
+				} catch { }
 			}
-			if (el.name && el.name.toLowerCase() != "banner") delays.push(el)
-			} catch { }
+			for (var x = delays.length - 1; x >= 0; x--) {            
+			for (var y = 0; y < x; y++) {
+				delays[x].delay = parseFloat(delays[x].delay) + parseFloat(delays[y].delay);
+			}
+			}
+			delays.forEach(delay => {
+				delay.delay = delay.delay * 1000;
+			});
+			var html = txt + videoScriptTimeline(delays)
+			
+			const video: VideoModel = {
+				html: html,
+				duration: 5300,
+				fps: 30,
+				width: 300,
+				bitrate: 2000000,
+				height: 600,
+				format: "mp4",
+				quality: 100,
+				audio: "",
+				loop: false,
+				bit: false,
+				gifQuality: false
+			};
+	
+			var base64 = { base64: "", ext: "" };
+			var pastaServidor = await CriarPasta();
+			var enviarHtml = await EnviarHtmlVideo(video, pastaServidor);
+			if (enviarHtml) {
+				base64.base64 = enviarHtml.data.base64;
+				base64.ext = enviarHtml.data.ext;
+			} else {
+				for (var i = 0; i < 360; i++) {
+				await sleep(10000);
+				var receberVideo = await ReceberVideo(video, pastaServidor);
+				if (receberVideo.finalizado) {
+					base64.base64 = receberVideo.base64;
+					base64.ext = receberVideo.ext;
+					// downloadVideo(base64.base64, `300x600-30-1.mp4`);
+					const blob = b64toBlob(base64.base64);
+					const filename = `300x600_${j + 1}.mp4`;
+					zip.file(filename, blob);
+					break;
+				}
+				}
+			}
 		}
-		for (var x = delays.length - 1; x >= 0; x--) {            
-		  for (var y = 0; y < x; y++) {
-		    delays[x].delay = parseFloat(delays[x].delay) + parseFloat(delays[y].delay);
-		  }
-		}
-		delays.forEach(delay => {
-			delay.delay = delay.delay * 1000;
-		});
-		var html = txt + videoScriptTimeline(delays)
-		
-		const video: VideoModel = {
-			html: html,
-			duration: 5300,
-			fps: 30,
-			width: 300,
-			bitrate: 2000000,
-			height: 600,
-			format: "mp4",
-			quality: 100,
-			audio: "",
-			loop: false,
-			bit: false,
-			gifQuality: false
-		  };
 
-		var base64 = { base64: "", ext: "" };
-		var pastaServidor = await CriarPasta();
-		var enviarHtml = await EnviarHtmlVideo(video, pastaServidor);
-		if (enviarHtml) {
-			base64.base64 = enviarHtml.data.base64;
-			base64.ext = enviarHtml.data.ext;
-		  } else {
-			for (var i = 0; i < 360; i++) {
-			  await sleep(10000);
-			  var receberVideo = await ReceberVideo(video, pastaServidor);
-			  if (receberVideo.finalizado) {
-				base64.base64 = receberVideo.base64;
-				base64.ext = receberVideo.ext;
-				downloadVideo(base64.base64, `300x600-30-1.mp4`);
-				break;
-			  }
-			}
-		  }
+		  zip.generateAsync({ type: "blob" })
+             .then(blob => {
+                 const url = window.URL.createObjectURL(blob);
+                 const link = document.createElement('a');
+                 link.href = url;
+                 link.download = `pack_video_${generateFileName()}.zip`;
+                 document.body.appendChild(link);
+                 link.click();
+
+                 document.body.removeChild(link);
+                 window.URL.revokeObjectURL(url);
+             })
+             .catch(error => {
+                 console.error('Erro ao criar arquivo zip:', error);
+             });
 	}
 
 
@@ -218,7 +239,6 @@ const DownloadModal = () => {
 					<label>
 						<span>Pack de video </span>
 						<Switch
-							disabled={true}
 							checked={videoPack}
 							onChange={() => setVideoPack(!videoPack)}
 						/>

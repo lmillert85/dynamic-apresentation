@@ -79,7 +79,7 @@
 
         @font-face {
             font-family: vivo_nomeproduto;
-            src: url(itc-officina-serif-bold.woff);
+            src: url(https://db.onlinewebfonts.com/t/ffa77d1a7abf63e91e70f37b34dfe2f8.woff);
         }
 
         .s1_bg1 {
@@ -663,16 +663,6 @@
                     timeline.animationElements("all_in", [
                         [".s2_cta", 0]
                     ]);
-                    timeline.animationElements("oferta", [
-                        [".s2_cta", 0]
-                    ]);
-
-                    //Chama looping
-                    timeline.animationElements("STOP_HERE", [
-                        [".s2_cta", 0]
-                    ], function () {
-                        loopingBanner(0); // Qtd de loop esperada
-                    });
                     // Chama looping
 
                 }
@@ -705,18 +695,7 @@
                     timeline.animationElements("all_in", [
                         [".s2_cta", 1.2] //,IN
                     ]);
-                    timeline.animationElements("oferta", [
-                        [".s2_cta", 1] //,IN
-                    ]);
                     //#TIMELINE_FIM#
-
-                    //Chama looping
-                    timeline.animationElements("STOP_HERE", [
-                        [".s2_cta", 3]
-                    ], function () {
-                        loopingBanner(0); // Qtd de loop esperada
-                    });
-                    // Chama looping
                 }
 
                 //Looping Banner

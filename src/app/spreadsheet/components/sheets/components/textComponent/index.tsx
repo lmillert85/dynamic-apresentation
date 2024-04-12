@@ -5,6 +5,8 @@ import { useAttachModal } from '@dynamic/contexts/attachModal';
 import * as I from './interface';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
+import { PostChangeSheets } from '@dynamic/services/feedService';
+import { IUpdateFeed } from '@dynamic/services/interface';
 
 const TextComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 	({ rowIndex, columnIndex }) => {		
@@ -14,10 +16,19 @@ const TextComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 		});
 		const refInput = useRef(null);
 
-		function handleChangeText(evt: React.ChangeEvent<HTMLInputElement>): void {
+		async function handleChangeText(evt: React.ChangeEvent<HTMLInputElement>): Promise<void> {
+			console.log('changetext')
 			var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
 			copyspreadsheetData[rowIndex].elementos[columnIndex].value = evt.target.value;
 			spreadsheetData.setSpreadsheetData(copyspreadsheetData);
+			var update: IUpdateFeed = {
+				row: rowIndex,
+				column: columnIndex,
+				value: evt.target.value,
+				imageName: null,
+				uuidv: 'teste'
+			};
+			await PostChangeSheets(update);
 		}
 
 		function handleClick(): void {

@@ -30,6 +30,8 @@ import EdgeFull  from '../../../public/assets_dynamic/300x600/motorola-edge-20.p
 import G60Full  from '../../../public/assets_dynamic/300x600/Moto-g60.png';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { Iso } from '@mui/icons-material';
+import { IUpdateFeed } from '@dynamic/services/interface';
+import { PostChangeSheets } from '@dynamic/services/feedService';
 
 const AttachModal = () => {
 	const [file, setFile] = useState<File>();
@@ -58,6 +60,15 @@ const AttachModal = () => {
 				copyspreadsheetData[row].elementos[key].value = b64ImageResult;
 				copyspreadsheetData[row].elementos[key].imageName = fileName;
 				spreadsheetData.setSpreadsheetData(copyspreadsheetData);
+				console.log(key, key)
+				var update: IUpdateFeed = {
+					row: row,
+					column: parseInt(key),
+					value: b64ImageResult as string,
+					imageName: fileName,
+					uuidv: 'teste'
+				};
+				PostChangeSheets(update);
 				setIsOpen(false);
 			};
 			reader.readAsDataURL(blob);
