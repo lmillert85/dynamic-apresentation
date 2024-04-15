@@ -117,6 +117,8 @@ var sheets: Array<ICreative> = [
 ];
 
 var template = getElementsTemplate(templateDynamic2.toString());
+console.log('templateDynamic2 templateDynamic2')
+console.log(templateDynamic2)
 var t1: Array<Array<ITemplateElement>> = [
 	[
 		{
