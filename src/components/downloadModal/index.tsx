@@ -119,20 +119,18 @@ const DownloadModal = () => {
 			txt = txt.replaceAll("function //animabanner(){", "function animabanner() {");
 			txt = txt.replaceAll("function //animabanner()", "function animabanner()");
 			txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
-			console.log('txt')
-			console.log(txt)
-			var animation = txt
-				.split("var iniciotimeline = 0;")[1]
-				.split("iniciotimeline = 1;")[0]
-				.replaceAll("\n", "")
-				.replaceAll("\r", "")
-				.replaceAll(" ", "")
-				.replaceAll("\"", "")
-				.replaceAll("[", "")
-				.replaceAll("]", "")
-				.replaceAll("(", "")
-				.replaceAll("//", "")
-				.replaceAll("timeline.animationElements", "");
+			// var animation = txt
+			// 	.split("var iniciotimeline = 0;")[1]
+			// 	.split("iniciotimeline = 1;")[0]
+			// 	.replaceAll("\n", "")
+			// 	.replaceAll("\r", "")
+			// 	.replaceAll(" ", "")
+			// 	.replaceAll("\"", "")
+			// 	.replaceAll("[", "")
+			// 	.replaceAll("]", "")
+			// 	.replaceAll("(", "")
+			// 	.replaceAll("//", "")
+			// 	.replaceAll("timeline.animationElements", "");
 			// var timeline = animation.split(");")
 			// const delays = [];
 			// for (var w = 0; w < timeline.length; w++) {
