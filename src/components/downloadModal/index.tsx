@@ -111,12 +111,16 @@ const DownloadModal = () => {
 		const zip = new JSZip();
 		for (var j = 0; j < spreadsheetData.spreadsheetData.length; j++) {
 			var htmlText = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[j].elementos , j) : "";
+			console.log('htmlText')
+			console.log(htmlText)
 			let txt = htmlText.replaceAll("animabanner()", "//animabanner()");
 			txt = txt.replaceAll("backup();", "//backup();");
 			txt = txt.replaceAll("function //animabanner() {", "function animabanner() {");
 			txt = txt.replaceAll("function //animabanner(){", "function animabanner() {");
 			txt = txt.replaceAll("function //animabanner()", "function animabanner()");
 			txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
+			console.log('txt')
+			console.log(txt)
 			var animation = txt
 				.split("/*#TIMELINE##/*/")[1]
 				.split("/*#TIMELINE_FIM##/*/")[0]
