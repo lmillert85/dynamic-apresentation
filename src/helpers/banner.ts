@@ -47,7 +47,8 @@ export function replaceBG(banner: string): string | null {
 		
 		banner = banner.replaceAll('no-repeat;*/', 'no-repeat;');
 		banner = banner.replaceAll('#*/', '#;');
-
+		console.log('banner')
+		console.log(banner)
 		return banner;
 	} catch {
 		return null;

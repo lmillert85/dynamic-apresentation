@@ -118,8 +118,8 @@ const DownloadModal = () => {
 			txt = txt.replaceAll("function //animabanner()", "function animabanner()");
 			txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
 			var animation = txt
-				.split("//#TIMELINE#")[1]
-				.split("//#TIMELINE_FIM#")[0]
+				.split("/*#TIMELINE##/*/")[1]
+				.split("/*#TIMELINE_FIM##/*/")[0]
 				.replaceAll("\n", "")
 				.replaceAll("\r", "")
 				.replaceAll(" ", "")
