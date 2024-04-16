@@ -122,8 +122,8 @@ const DownloadModal = () => {
 			console.log('txt')
 			console.log(txt)
 			var animation = txt
-				.split("var iniciotimeline;")[1]
-				.split("var fimtimeline;")[0]
+				.split("var iniciotimeline = 0;")[1]
+				.split("iniciotimeline = 1;")[0]
 				.replaceAll("\n", "")
 				.replaceAll("\r", "")
 				.replaceAll(" ", "")
