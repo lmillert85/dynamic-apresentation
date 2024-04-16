@@ -162,91 +162,91 @@ const DownloadModal = () => {
 				function setTime(t) {
 					time += t;
 				const ids = [{
-			id: "s1_bg1",
-			delay: 0,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
+					id: "s1_bg1",
+					delay: 0,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s1_logo",
+					delay: 300,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s1_txt1",
+					delay: 800,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s2_bg1",
+					delay: 3300,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s2_logo",
+					delay: 3600,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s1_img_produto",
+					delay: 3900,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s1_promo",
+					delay: 4100,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					{
+					id: "s2_cta",
+					delay: 5300,
+					animation: "all_in",
+					type: "IN",
+					opacity: true
+					}
+					,
+					]
+			ids.forEach((id, index) => {
+				try {        
+				let delay = id.delay - time;
+				let css = document.getElementsByClassName(id.id)[0];
+				css.style['animationPlayState'] = 'paused'
+				if (delay > 0) {
+					css.style.opacity = 0;
+				} else {
+					try {
+					if (id.type === "OUT" && !id.opacity) {
+						id.opacity = true;
+						css.style.opacity = 1;
+					}
+					} catch {}
+					css.style.animationDelay = delay + 'ms';
+					css.className = id.id + " " + id.animation;
+				}
+				} catch {}
+			});
 			}
-			,
-			{
-			id: "s1_logo",
-			delay: 300,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s1_txt1",
-			delay: 800,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s2_bg1",
-			delay: 3300,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s2_logo",
-			delay: 3600,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s1_img_produto",
-			delay: 3900,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s1_promo",
-			delay: 4100,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			{
-			id: "s2_cta",
-			delay: 5300,
-			animation: "all_in",
-			type: "IN",
-			opacity: true
-			}
-			,
-			]
-	ids.forEach((id, index) => {
-		try {        
-		  let delay = id.delay - time;
-		  let css = document.getElementsByClassName(id.id)[0];
-		  css.style['animationPlayState'] = 'paused'
-		  if (delay > 0) {
-			css.style.opacity = 0;
-		  } else {
-			try {
-			  if (id.type === "OUT" && !id.opacity) {
-				id.opacity = true;
-				css.style.opacity = 1;
-			  }
-			} catch {}
-			css.style.animationDelay = delay + 'ms';
-			css.className = id.id + " " + id.animation;
-		  }
-		} catch {}
-	  });
-	}
-	setTime(0)
+			setTime(0)
   		</script>`
 			var html = txt + timelineVideo;
 			
