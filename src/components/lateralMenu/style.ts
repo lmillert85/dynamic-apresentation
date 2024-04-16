@@ -50,10 +50,10 @@ export const LateralMenuContainer = styled.aside<ILateralMenuStyle>`
         margin-right: 8px;
     }
 
-    #${props => props.selected} {
-      background-color: ${vars.colors.orange};
-      color: #fff;
-    }
+    // #${props => props.selected} {
+    //   background-color: ${vars.colors.orange};
+    //   color: #fff;
+    // }
 
     @media screen and (max-width: 768px) {
         width: 100%;

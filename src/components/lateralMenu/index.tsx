@@ -18,10 +18,9 @@ const LateralMenu = () => {
 		handleChangeSelectedRoute(contextChange);
 		router.push(route);
 	};
-	console.log('selectedRoute')
-	console.log(selectedRoute)
+	
 	return (
-		<S.LateralMenuContainer>
+		<S.LateralMenuContainer selected={selectedRoute}>
 			<div>
 				<TbSquareChevronRightFilled className="dynamicIcon" />{' '}
 				<p>Dynamic ads</p>
