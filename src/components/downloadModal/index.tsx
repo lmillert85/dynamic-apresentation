@@ -122,8 +122,8 @@ const DownloadModal = () => {
 			console.log('txt')
 			console.log(txt)
 			var animation = txt
-				.split("/*#TIMELINE##/*/")[1]
-				.split("/*#TIMELINE_FIM##/*/")[0]
+				.split("var iniciotimeline;")[1]
+				.split("var fimtimeline;")[0]
 				.replaceAll("\n", "")
 				.replaceAll("\r", "")
 				.replaceAll(" ", "")
@@ -154,6 +154,7 @@ const DownloadModal = () => {
 			}
 			delays.forEach(delay => {
 				delay.delay = delay.delay * 1000;
+				delay.type = "IN";
 			});
 			var html = txt + videoScriptTimeline(delays)
 			
