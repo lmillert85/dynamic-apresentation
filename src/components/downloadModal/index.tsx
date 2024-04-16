@@ -251,11 +251,10 @@ const DownloadModal = () => {
 			setTime(0)
   		</script>`
 			var html = txt + timelineVideo;
-			
 			const video: VideoModel = {
 				html: html,
-				duration: 5300,
-				fps: 30,
+				duration: 6300,
+				fps: 24,
 				width: 300,
 				bitrate: 2000000,
 				height: 600,
