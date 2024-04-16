@@ -72,7 +72,7 @@ const DownloadModal = () => {
 	async function handleBuildImage() {
 		setCurrentPage(1);
 		console.log('currentPage', currentPage)
-		var page = JSON.parse(JSON.stringify(currentPage));
+		var page = 1;
 		setPrinting(true);
 		await sleep(10000);
 		const zip = new JSZip();
