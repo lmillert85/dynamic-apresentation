@@ -71,12 +71,14 @@ const DownloadModal = () => {
 
 	async function handleBuildImage() {
 		setCurrentPage(1);
+		console.log('currentPage', currentPage)
 		setPrinting(true);
 		await sleep(10000);
 		const zip = new JSZip();
 		for (var i = 0; i < spreadsheetData.spreadsheetData.length; i++) {
 			console.log(i, currentPage * 4)
 			if (i >= currentPage * 4) {
+				console.log('trocando pagina: ', currentPage + 1)
 				setCurrentPage(currentPage + 1);
 				setLoading(true);
 				await sleep(10000);
