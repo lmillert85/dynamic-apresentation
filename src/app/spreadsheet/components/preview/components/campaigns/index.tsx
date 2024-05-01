@@ -17,8 +17,10 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	const previewEditModal = usePreviewEditModalContext();
 	const { setIsOpen, setRow, row } = useAttachModal();
 	const spreadsheetData = useSpreadsheetData();
-	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
-	const html = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[index].elementos , index) : "";
+	const { activeCampaign, campaign, handleChangeCampaign, selectedFormat, setSelectedFormat } = useCampaign();
+	console.log('campaign[activeCampaign]')
+	console.log(campaign)
+	const html = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.formats[selectedFormat], spreadsheetData.spreadsheetData[index].elementos, index) : "";
 	
 	const handleReviewCampaign = async (index: number, rev: I.reviewType) => {
 		if (activeCampaign === null) return;		
@@ -39,9 +41,6 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 			await PostAproved(copyCampaign[activeCampaign].reproved, rev, "uuidv");
 		}
 		handleChangeCampaign(copyCampaign);
-		// var index = spreadsheetData.values.elementos
-		// setReviewedCampaigns(rev, index);
-		// setReview(rev);
 	};	
 
 	const handleEditButtonClick = (): void => {
@@ -81,8 +80,8 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 					/>
 				</span>
 			</section>
-			<InnerHTML html={html} width={300} height={600} backup={false} />
-			<InnerHTML html={html} width={300} height={600} backup={true} index={index} />
+			<InnerHTML html={html} width={campaign[activeCampaign].template.formats[selectedFormat].width} height={campaign[activeCampaign].template.formats[selectedFormat].height} backup={false} />
+			<InnerHTML html={html} width={campaign[activeCampaign].template.formats[selectedFormat].width} height={campaign[activeCampaign].template.formats[selectedFormat].height} backup={true} index={index} />
 
 			<button type="button" onClick={() => handleEditButtonClick()}>
 				Editar

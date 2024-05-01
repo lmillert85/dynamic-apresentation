@@ -22,8 +22,6 @@ interface ITemplateContextProps {
 const TemplateDataContext = createContext({} as ITemplateContextProps);
 
 const TemplateDataProvider = ({ children }: PropsWithChildren) => {	
-	console.log('templateDynamic templateDynamic')
-	console.log(templateDynamic)
 	const [listaTemplates, setListaTemplates] = useState<
 		Array<ITemplate | null>
 	>([

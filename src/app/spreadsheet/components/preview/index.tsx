@@ -10,8 +10,10 @@ import SlidePreview from './components/slide';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useDownloadModalContext } from '@dynamic/contexts/downloadModal';
 import { useCampaign } from '@dynamic/contexts/campaign';
+import { IFormats } from '@dynamic/services/interface';
 
 const SpreadsheetPreview = () => {
+	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
 	const [viewType, setViewType] =
 		useState<I.SpreadsheetPreviewTypes['viewType']>('pages');
 	const spreadsheet = useSpreadsheetData();
@@ -19,7 +21,6 @@ const SpreadsheetPreview = () => {
 		<PreviewPagination/>
 	);
 	const DownloadModalContext = useDownloadModalContext();
-
 	const handleChangeView = (type: I.SpreadsheetPreviewTypes['viewType']) => {
 		setViewType(type);
 

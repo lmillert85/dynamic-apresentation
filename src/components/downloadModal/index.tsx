@@ -23,7 +23,7 @@ const DownloadModal = () => {
     const { isOpen, setIsOpen } = useDownloadModalContext();
 	const spreadsheetData = useSpreadsheetData();
     const zip = new JSZip();
-	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage, printing, setPrinting } = useCampaign();
+	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage, printing, setPrinting, selectedFormat } = useCampaign();
 	const refBackup = useRef<HTMLIFrameElement>(null);
 	const [ loading, setLoading ] = useState(false);
 
@@ -46,18 +46,20 @@ const DownloadModal = () => {
 	};
 
 	async function handleBuildHtml() {
-		 if (activeCampaign === null) return;
+		if (activeCampaign === null) return;
+		const formato = campaign[activeCampaign].template.formats[selectedFormat];
+		const fileName = `pack_HTML_${formato.width}x${formato.height}.zip`
 		const zip = new JSZip();
 		for (var i = 0; i < spreadsheetData.spreadsheetData.length; i++) {
-			var creative = buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[i].elementos , i);
-			zip.file(`${campaign[activeCampaign].name}_${i + 1}.html`, creative);
+			var creative = buildCreativeLine(formato.html, spreadsheetData.spreadsheetData[i].elementos , i);
+			zip.file(`${campaign[activeCampaign].name}_${formato.width}x${formato.height}_${i + 1}.html`, creative);
 		}
 		 zip.generateAsync({ type: "blob" })
              .then(blob => {
                  const url = window.URL.createObjectURL(blob);
                  const link = document.createElement('a');
                  link.href = url;
-                 link.download = "pack HTML.zip";
+                 link.download = fileName;
                  document.body.appendChild(link);
                  link.click();
 
@@ -74,20 +76,16 @@ const DownloadModal = () => {
 		console.log('currentPage', currentPage)
 		var page = 1;
 		setPrinting(true);
-		await sleep(10000);
+		await sleep(5000);
 		const zip = new JSZip();
 		for (var i = 0; i < spreadsheetData.spreadsheetData.length; i++) {
 			console.log(i, page * 4)
 			if (i >= page * 4) {
-				console.log('trocando pagina: ', page + 1)
 				page ++;
 				setCurrentPage(page);
 				setLoading(true);
 				await sleep(10000);
 			}
-			var html = buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[i].elementos , i);
-			html = html.replaceAll("animaBanner();", "//animaBanner();");
-			html = html.replaceAll("//backup();", "backup();");
 			var div = document.getElementById(`backup-iframe-${i}`);
 			var image = await PrintElement(div);
   			const blobimage = dataURItoBlob(image);
@@ -113,151 +111,59 @@ const DownloadModal = () => {
 
 	async function handleVideo() {
 		const zip = new JSZip();
+		const formato = campaign[activeCampaign].template.formats[selectedFormat];
+		const fileName = `pack_HTML_${formato.width}x${formato.height}.zip`
 		for (var j = 0; j < spreadsheetData.spreadsheetData.length; j++) {
-			var htmlText = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.template, spreadsheetData.spreadsheetData[j].elementos , j) : "";
-			console.log('htmlText')
-			console.log(htmlText)
+			var htmlText = activeCampaign !== null ? buildCreativeLine(formato.html, spreadsheetData.spreadsheetData[j].elementos, spreadsheetData.spreadsheetData[j].elementos , j) : "";
 			let txt = htmlText.replaceAll("animabanner()", "//animabanner()");
 			txt = txt.replaceAll("backup();", "//backup();");
 			txt = txt.replaceAll("function //animabanner() {", "function animabanner() {");
 			txt = txt.replaceAll("function //animabanner(){", "function animabanner() {");
 			txt = txt.replaceAll("function //animabanner()", "function animabanner()");
 			txt = txt.replaceAll("function  //animabanner()", "function animabanner()");
-			// var animation = txt
-			// 	.split("var iniciotimeline = 0;")[1]
-			// 	.split("iniciotimeline = 1;")[0]
-			// 	.replaceAll("\n", "")
-			// 	.replaceAll("\r", "")
-			// 	.replaceAll(" ", "")
-			// 	.replaceAll("\"", "")
-			// 	.replaceAll("[", "")
-			// 	.replaceAll("]", "")
-			// 	.replaceAll("(", "")
-			// 	.replaceAll("//", "")
-			// 	.replaceAll("timeline.animationElements", "");
-			// var timeline = animation.split(");")
-			// const delays = [];
-			// for (var w = 0; w < timeline.length; w++) {
-			// 	var t = timeline[w].split(",");
-			// 	try {
-			// 	var el = {
-			// 		name: t[1].replaceAll(" ", "").replace(".", "").replaceAll("\"", ""),
-			// 		animation: t[0].replaceAll(" ", ""),
-			// 		delay: t[2].replaceAll(" ", "").replaceAll("\"", ""),
-			// 		type: t[3].replaceAll(" ", "").replaceAll("\"", "")
-			// 	}
-			// 	if (el.name && el.name.toLowerCase() != "banner") delays.push(el)
-			// 	} catch { }
-			// }
-			// for (var x = delays.length - 1; x >= 0; x--) {            
-			// for (var y = 0; y < x; y++) {
-			// 	delays[x].delay = parseFloat(delays[x].delay) + parseFloat(delays[y].delay);
-			// }
-			// }
-			// delays.forEach(delay => {
-			// 	delay.delay = delay.delay * 1000;
-			// 	delay.type = "IN";
-			// });
-			var timelineVideo = `
-			<script type="text/javascript">
-				var time = 0;
-				function setTime(t) {
-					time += t;
-				const ids = [{
-					id: "s1_bg1",
-					delay: 0,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s1_logo",
-					delay: 300,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s1_txt1",
-					delay: 800,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s2_bg1",
-					delay: 3300,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s2_logo",
-					delay: 3600,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s1_img_produto",
-					delay: 3900,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s1_promo",
-					delay: 4100,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					{
-					id: "s2_cta",
-					delay: 5300,
-					animation: "all_in",
-					type: "IN",
-					opacity: true
-					}
-					,
-					]
-			ids.forEach((id, index) => {
-				try {        
-				let delay = id.delay - time;
-				let css = document.getElementsByClassName(id.id)[0];
-				css.style['animationPlayState'] = 'paused'
-				if (delay > 0) {
-					css.style.opacity = 0;
-				} else {
-					try {
-					if (id.type === "OUT" && !id.opacity) {
-						id.opacity = true;
-						css.style.opacity = 1;
-					}
-					} catch {}
-					css.style.animationDelay = delay + 'ms';
-					css.className = id.id + " " + id.animation;
+			var animation = txt
+				.split("//#TIMELINE#")[1]
+				.split("//TIMELINE_FIM")[0]
+				.replaceAll("\n", "")
+				.replaceAll("\r", "")
+				.replaceAll(" ", "")
+				.replaceAll("\"", "")
+				.replaceAll("[", "")
+				.replaceAll("]", "")
+				.replaceAll("(", "")
+				.replaceAll("//", "")
+				.replaceAll("timeline.animationElements", "");
+			var timeline = animation.split(");")
+			const delays = [];
+			for (var w = 0; w < timeline.length; w++) {
+				var t = timeline[w].split(",");
+				try {
+				var el = {
+					name: t[1].replaceAll(" ", "").replace(".", "").replaceAll("\"", ""),
+					animation: t[0].replaceAll(" ", ""),
+					delay: t[2].replaceAll(" ", "").replaceAll("\"", ""),
+					type: t[3].replaceAll(" ", "").replaceAll("\"", "")
 				}
-				} catch {}
-			});
+				if (el.name && el.name.toLowerCase() != "banner") delays.push(el)
+				} catch { }
 			}
-			setTime(0)
-  		</script>`
-			var html = txt + timelineVideo;
+			for (var x = delays.length - 1; x >= 0; x--) {            
+			for (var y = 0; y < x; y++) {
+				delays[x].delay = parseFloat(delays[x].delay) + parseFloat(delays[y].delay);
+			}
+			}
+			delays.forEach(delay => {
+				delay.delay = delay.delay * 1000;
+				delay.type = "IN";
+			});
+			var html = txt + videoScriptTimeline(delays)
 			const video: VideoModel = {
 				html: html,
 				duration: 6300,
 				fps: 24,
-				width: 300,
+				width: formato.width,
 				bitrate: 2000000,
-				height: 600,
+				height: formato.height,
 				format: "mp4",
 				quality: 100,
 				audio: "",
@@ -281,7 +187,7 @@ const DownloadModal = () => {
 					base64.ext = receberVideo.ext;
 					// downloadVideo(base64.base64, `300x600-30-1.mp4`);
 					const blob = b64toBlob(base64.base64);
-					const filename = `300x600_${j + 1}.mp4`;
+					const filename = `${formato.width}_${formato.height}_${j + 1}.mp4`;
 					zip.file(filename, blob);
 					break;
 				}
@@ -294,7 +200,7 @@ const DownloadModal = () => {
                  const url = window.URL.createObjectURL(blob);
                  const link = document.createElement('a');
                  link.href = url;
-                 link.download = `pack_video_${generateFileName()}.zip`;
+                 link.download = `pack_video_${fileName}_${generateFileName()}.zip`;
                  document.body.appendChild(link);
                  link.click();
 

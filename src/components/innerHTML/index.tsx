@@ -5,12 +5,13 @@ import vars from '@dynamic/styles/colors.style';
 import { useCampaign } from '@dynamic/contexts/campaign';
 
 const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I.InnerHTMLProps) => {
-	const { printing } = useCampaign();
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	if (backup) {
-		html = html.replaceAll("animaBanner();;;", "//animaBanner();;;");
-		html = html.replaceAll("//backup();;;", "backup();;;");
+		html = html.replaceAll("animabanner();", "//animaBanner();");
+		html = html.replaceAll("//backup();", "backup();");
 	}
+	console.log('width', width)
+	console.log('height', height)
 	useEffect(() => {
 
 		const iframe = document.createElement('iframe');

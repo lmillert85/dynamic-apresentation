@@ -6,15 +6,22 @@ export interface IClients{
 
 export interface ICampaign {
 	uuidv: string,
-	id: number,
+	id: number | null,
     client: string,
     name: string,
     aproved: Array<number>,
     reproved: Array<number>,
     created: string,
 	template: ITemplate | null,
-	templateCols: Array<ITemplateElement>
-    amount: number
+    amount: number,
+    formats: Array<IFormats>
+}
+
+export interface IFormats {
+    width: number,
+    height: number,
+    active: boolean,
+    html: string
 }
 
 export interface ITemplateElement {

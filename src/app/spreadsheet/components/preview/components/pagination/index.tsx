@@ -17,9 +17,10 @@ const PreviewPagination = () => {
 	const [allPages, setAllPages] = useState(Math.ceil(spreadsheetData.spreadsheetData.length / 4));
 	const [pages, setPages] = useState<Array<JSX.Element>>([]);
 	const previewEditModal = usePreviewEditModalContext();
-	const refBackup = useRef<HTMLIFrameElement>(null);
-	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage } = useCampaign();
-	
+	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage, selectedFormat, setSelectedFormat } = useCampaign();
+	console.log('selectedFormat')
+	console.log(selectedFormat)
+
 	const renderPages = () => {
 		const helper = [];
 
@@ -58,9 +59,7 @@ const PreviewPagination = () => {
     return (
 		<S.Container>
 			<section className="previews">{renderPreviews()}</section>
-
 			<div className="pages">{pages.map((page) => page)}</div>
-			{/* <button onClick={() => handlePrint()}>teste</button> */}
 		</S.Container>
 	);
 };

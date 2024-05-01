@@ -37,7 +37,7 @@ const ClientList: React.FC<I.RouteType> = ({ goto })  => {
 					onKeyDown={() => null}
                     key={Math.random()}
 				>
-					<img src={client.logo} alt="client" />
+					<img style={{width: '200px'}} src={client.logo} alt="client" />
 					<figcaption>
 						<p>{client.name}</p> <FaArrowRight />
 					</figcaption>

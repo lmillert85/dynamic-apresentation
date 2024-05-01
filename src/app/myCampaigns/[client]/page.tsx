@@ -5,19 +5,15 @@ import { FiSearch } from 'react-icons/fi';
 import Breadcrumb from '@dynamic/components/breadcrumb';
 import * as S from './style';
 import { GetCampaign, GetSheets } from '@dynamic/services/feedService';
-import { ICampaign } from '@dynamic/services/interface';
 import { useParams, useRouter } from 'next/navigation';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
+import { ICampaign } from '@dynamic/services/interface';
 
 const ClientCampaigns = () => {
-    // const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
-	
     const spreadsheetData = useSpreadsheetData();
 	const { campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
     const router = useRouter();
-	const params = useParams<{ tag: string; item: string }>()
-    
     useEffect(() => {
         const fetchCampaigns = async () => {
             try {
@@ -66,7 +62,7 @@ const ClientCampaigns = () => {
                 </div>
             </section>
 
-            <Breadcrumb paths={['Minhas campanhas', 'VIVO']} goto={['/myCampaigns', '/myCampaigns/vivo']} />
+            <Breadcrumb paths={['Minhas campanhas', 'TIM']} goto={['/myCampaigns', '/myCampaigns/tim']} />
 
             <table>
                 <thead>
@@ -75,6 +71,7 @@ const ClientCampaigns = () => {
                         <th>Criador</th>
                         <th>Qtd. pecas</th>
                         <th>Status</th>
+                        <th>Formatos</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -83,11 +80,12 @@ const ClientCampaigns = () => {
                         <tr key={index}>
                             <td>{item.name}</td>
                             <td>{item.created}</td>
-                            <td>{item.amount}</td>
+                            <td>{item.amount * item.template.formats.length}</td>
                             <td className="status">
                                 {item.aproved.length}
                                 <BsDot className="statusGreen" /> {item.reproved.length} <BsDot className="statusRed" />
                             </td>
+                            <td>{item.template.formats.length}</td>
                             <td className="btnWrapper">
                                 <button style={{ cursor: 'pointer' }} onClick={() => handleClick(item.uuidv, index)}>
                                     Acessar

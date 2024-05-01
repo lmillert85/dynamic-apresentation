@@ -12,11 +12,11 @@ const AssetsClient = () => {
 	
 	const [gotoBreadcrumb, setGotoBreadcrumb] = useState([
 		'/assets',
-		'/assets/vivo'
+		'/assets/tim'
 	]);
 	const [pathBreadcrumb, setPathBreadcrumb] = useState([
 		'Meus assets',
-		'Vivo'
+		'TIM'
 	]);
 	const [isFolderViewList, setIsFolderViewList] = useState(true);
 	

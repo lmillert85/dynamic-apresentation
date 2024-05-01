@@ -1,3 +1,5 @@
+import { IFormats } from "@dynamic/services/interface";
+
 export interface ITemplate {
 	banner: string;
 	template: string;
@@ -6,6 +8,7 @@ export interface ITemplate {
 	name: string;
     width: any;
     height: any;
+    formats: Array<IFormats>
 }
 
 export interface ITemplateElement {
