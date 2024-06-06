@@ -9,6 +9,8 @@ import {
 
 interface IDynamic {
 	loading: ILoading;
+	teste: number;	
+	setTeste: (context: number) => void;
 	setLoading: (context: ILoading) => void;
 }
 
@@ -21,6 +23,7 @@ const DynamicContext = createContext({} as IDynamic);
 
 const DynamicProvider = ({ children }: PropsWithChildren) => {
 	const [loading, setLoading] = useState<ILoading>({show: false, progress: null});
+	const [teste, setTeste] = useState<number>(0);
 
 	useLayoutEffect(() => {
 		console.log('loading')
@@ -28,9 +31,9 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
 	
 	const isOpenMemoized = useMemo(
 		() => ({
-            loading, setLoading
+            loading, setLoading, teste, setTeste
 		}),
-		[loading, setLoading]
+		[loading, setLoading, teste, setTeste]
 	);
 
 	return (

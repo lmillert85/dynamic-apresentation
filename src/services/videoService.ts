@@ -77,5 +77,8 @@ export async function ReceberVideo(videoModel: any, pasta: string) {
         console.log('Finalizado: ', res.data.finalizado)
         console.log('------------------')
         return res.data;
-    } catch (error) { console.log(error) }
+    } catch (error) { 
+			console.log('error 5345345')
+            console.log(error)
+        }
 }

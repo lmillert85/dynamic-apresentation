@@ -2,8 +2,8 @@
 
 import * as S from './style';
 import React, { useRef, useState } from 'react';
-import { GetCampaign, GetSheets } from '@dynamic/services/feedService';
-import { useRouter } from 'next/navigation';
+import { GetCampaign, GetSheets, GetTemplateElementos } from '@dynamic/services/feedService';
+import { useParams, useRouter } from 'next/navigation';
 import { Column, ContextMenuItem, DataSheetGrid, DataSheetGridRef, DynamicDataSheetGrid, createContextMenuComponent, keyColumn } from 'react-datasheet-grid';
 // import { ReturnColumnType } from '../components/sheets/helper/columnType';
 import { internationalizationContextMenu } from './helper/internationalization';
@@ -16,8 +16,11 @@ import { ReturnColumnType } from './helper/columnType';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import Tabs from '@dynamic/components/tabs';
 import * as IT from '@dynamic/@types/tabSelectedType.interface';
+import { ITemplate, ITemplateElement } from '@dynamic/services/interface';
+import { useCampaign } from '@dynamic/contexts/campaign';
 
 function Spreadsheet () {
+	const { activeCampaign, campaign, handleChangeCampaign, } = useCampaign();
 	const spreadsheetData = useSpreadsheetData();
 	const [selectedCell, setSelectedCell] = useState<I.cellPropsWithCol>({
 		col: 0,
@@ -45,14 +48,18 @@ function Spreadsheet () {
 	)) as unknown as any;
 	const ref = useRef<DataSheetGridRef>(null);    
 	const router = useRouter();
-	console.log(spreadsheetData)
-	console.log(spreadsheetData)
 	if (spreadsheetData == undefined || !spreadsheetData.spreadsheetData || spreadsheetData.spreadsheetData.length < 0) {
 		router.push('/');
 		return <></>
 	}
+	
+    const params = useParams();
+	var templateElementos: Array<ITemplateElement> = []
+	try {
+		templateElementos = GetTemplateElementos(params.creative.toString());
+	} catch {}
     
-    const cols = spreadsheetData.spreadsheetData[0].elementos.map((element) => {
+    const cols = templateElementos.map((element) => {
         return {
             ...keyColumn(element.id, ReturnColumnType(element.tipo)),
             title: element.id
@@ -60,13 +67,9 @@ function Spreadsheet () {
     });
 
     function handleChangeSpreadsheet(evt: any) {
-        console.log('evt 213')
-        console.log(evt)
     }
 
     function handleChangeSheet(evt: any) {
-        console.log('evt')
-        console.log(evt)
     }
 
     function fixSheetSize() {        

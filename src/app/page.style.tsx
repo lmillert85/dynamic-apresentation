@@ -1,6 +1,5 @@
 import vars from '@dynamic/styles/colors.style';
 import styled from 'styled-components';
-import PaperBackground from '../../public/paperBackground.png';
 
 const HomeWrapper = styled.div`
 	display: flex;
@@ -59,7 +58,6 @@ const HomeWrapper = styled.div`
 	}
 
 	.content {
-		background-image: url(${PaperBackground.src});
         background-size: cover;
 		display: flex;
 		flex-direction: column;

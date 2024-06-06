@@ -3,19 +3,23 @@ import * as S from './style';
 import * as I from './interface';
 import { FaFolderOpen } from 'react-icons/fa';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { GetClients } from '@dynamic/services/feedService';
 
 const Folders: React.FC<I.FolderProps> = ({
 	isListView,
 }) => {
-	const [folderList, setFolderList] = useState([
-		'300x600'
-	]);
+	
 	const router = useRouter();
-
+    const params = useParams();
+    const uuidv_client = params.client;
+    const client = GetClients(uuidv_client.toString());
+	const [folderList, setFolderList] = useState([
+		'Campanha ' + client.name
+	]);
 	const handleChangeBreadcrumbInfo = (): void => {
 		
-		router.push('/assets/vivo/driver');
+		router.push('/assets/' + client.uuidv +'/driver');
 	};
 
 	const renderList = (isListView: boolean = false) => {
@@ -55,7 +59,7 @@ const Folders: React.FC<I.FolderProps> = ({
 								<FaFolderOpen />
 							</td>
 							<td>{folder}</td>
-							<td>Gustavo Santos Melo</td>
+							<td>Reanimate Demo</td>
 						</tr>
 					))}
 				</tbody>

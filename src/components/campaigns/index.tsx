@@ -58,7 +58,7 @@ const ClientCampaigns = () => {
                 </div>
             </section>
 
-            <Breadcrumb paths={['Minhas campanhas', 'VIVO']} goto={['/myCampaigns', '/myCampaigns/vivo']} />
+            <Breadcrumb paths={['Minhas campanhas', 'TIM']} goto={['/myCampaigns', '/myCampaigns/tim']} />
 
             <table>
                 <thead>

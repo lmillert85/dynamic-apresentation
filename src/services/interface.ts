@@ -2,12 +2,14 @@ export interface IClients{
 	name: string;
 	logo: string;
 	uuidv: string;
+    campaign: string;
 }
 
 export interface ICampaign {
 	uuidv: string,
+    uuidv_client: string,
+    uuidv_template: string,
 	id: number | null,
-    client: string,
     name: string,
     aproved: Array<number>,
     reproved: Array<number>,
@@ -21,7 +23,9 @@ export interface IFormats {
     width: number,
     height: number,
     active: boolean,
-    html: string
+    html: string,
+    aproved: Array<number>,
+    reproved: Array<number>
 }
 
 export interface ITemplateElement {
@@ -37,12 +41,17 @@ export interface ITemplateElement {
 export interface ICreative {
 	elementos: Array<ITemplateElement>;
     aproved: boolean | null;
-    uuidv: string
+    uuidv: string;
+    uuidv_feed: string;
+    uuidv_campaign: string;
 }
 
 export interface IFeed {
     sheets: Array<ICreative>;
-    uuidv: string
+    uuidv: string;
+    uuidv_client: string;
+    uuidv_template: Array<ITemplateElement>;
+    uuidv_campaign: string;
 }
 
 export interface ITemplate {    
@@ -60,6 +69,7 @@ export interface IAssets {
     type: string;
     updatedAt: string;
     size: string;
+    uuidv_client: string;
 }
 
 export interface IUpdateFeed {

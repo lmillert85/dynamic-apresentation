@@ -38,8 +38,9 @@ const PreviewEditModal = () => {
 			column: index,
 			value: newValue,
 			imageName: null,
-			uuidv: 'teste'
+			uuidv: copyspreadsheetData[0].uuidv_feed
 		};
+		console.log('PostChangeSheets 3')
 		await PostChangeSheets(update);
 	};
 

@@ -28,8 +28,10 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.11.0",
+    "read-excel-file": "^5.8.0",
     "styled-components": "5.3.11",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^20",

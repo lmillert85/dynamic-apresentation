@@ -17,7 +17,6 @@ const TextComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 		const refInput = useRef(null);
 
 		async function handleChangeText(evt: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-			console.log('changetext')
 			var copyspreadsheetData = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData));
 			copyspreadsheetData[rowIndex].elementos[columnIndex].value = evt.target.value;
 			spreadsheetData.setSpreadsheetData(copyspreadsheetData);
@@ -26,7 +25,7 @@ const TextComponent = React.memo<CellProps<I.ImageCellProps | null, any>>(
 				column: columnIndex,
 				value: evt.target.value,
 				imageName: null,
-				uuidv: 'teste'
+				uuidv: copyspreadsheetData[0].uuidv_feed
 			};
 			await PostChangeSheets(update);
 		}

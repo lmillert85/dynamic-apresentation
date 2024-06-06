@@ -15,17 +15,6 @@ const SlidePreview: React.FC<I.PreviewDataChild> = ({ data }) => {
 	const [campaign, setCampaign] = useState(<></>);
     const previewEditModal = usePreviewEditModalContext();
 
-	// const renderCampaign = () => {
-	// 	const domClone = document.slice();
-
-	// 	const html = buildCreativeLine(
-	// 		domClone,
-	// 		informations[currentPreview]
-	// 	);
-
-	// 	setCampaign(<Campaigns index={currentPreview} />);
-	// };
-
     useEffect(() => {
         setInformations(syncData);
     }, [previewEditModal.isOpen]);

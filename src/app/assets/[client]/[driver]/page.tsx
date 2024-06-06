@@ -1,116 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './style';
 import Breadcrumb from '@dynamic/components/breadcrumb';
 import { MdUpload } from 'react-icons/md';
 import { BsFillGridFill, BsFillImageFill } from 'react-icons/bs';
 import { AiOutlineUnorderedList } from 'react-icons/ai';
 import { SiGooglesheets } from 'react-icons/si';
-import Headset  from '../../../../../public/assets_dynamic/300x600/Headset-Gamer-Brutal.png';
-import CasaSegura  from '../../../../../public/assets_dynamic/300x600/Casa-Segura-Positivo.png';
-import Watch1  from '../../../../../public/assets_dynamic/300x600/Watch4-Classic-LTE-46mm.png';
-import Watch2  from '../../../../../public/assets_dynamic/300x600/Watch4-Classic-LTE-42mm.png';
-import Watch3  from '../../../../../public/assets_dynamic/300x600/Watch4-Classic-BT-44mm.png';
-import FoneOuvido  from '../../../../../public/assets_dynamic/300x600/Motorolo-Pulse-120.png';
-import Buds2  from '../../../../../public/assets_dynamic/300x600/Samsung-Galaxy-Buds2.png';
-import A52  from '../../../../../public/assets_dynamic/300x600/Samsung-Galaxy-A52s-5G.png';
-import S21  from '../../../../../public/assets_dynamic/300x600/Samsung-Galaxy-S21-128GB.png';
-import Edge  from '../../../../../public/assets_dynamic/300x600/motorola-edge-20.png';
-import G60  from '../../../../../public/assets_dynamic/300x600/Moto-g60.png';
+import { useParams } from 'next/navigation';
+import { GetAssets, GetAssetsByClient, GetClients } from '@dynamic/services/feedService';
+import { IAssets } from '@dynamic/services/interface';
 
-const Driver = () => {
+const Driver = () => {	
+    const params = useParams();
+    const uuidv_client = params.client;	
+    const client = GetClients(uuidv_client.toString());
 	const [isListView, setIsListView] = useState(true);
-	const [items, setItems] = useState([
-		{
-			id: 11,
-			name: 'Headset.png',
-			image: Headset.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '34.56kb'
-		},
-		{
-			id: 10,
-			name: 'CasaSegura.png',
-			image: CasaSegura.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '25.56kb'
-		},
-		{
-			id: 9,
-			name: 'Watch1.png',
-			image: Watch1.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '29.56kb'
-		},
-		{
-			id: 8,
-			name: 'Watch2.png',
-			image: Watch2.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '29.56kb'
-		},
-		{
-			id: 7,
-			name: 'Watch3.png',
-			image: Watch3.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '30.56kb'
-		},
-		{
-			id: 6,
-			name: 'FoneOuvido.png',
-			image: FoneOuvido.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '31.56kb'
-		},
-		{
-			id: 5,
-			name: 'Buds2.png',
-			image: Buds2.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '44.56kb'
-		},
-		{
-			id: 4,
-			name: 'A52.png',
-			image: A52.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '44.56kb'
-		},
-		{
-			id: 3,
-			name: 'S21.png',
-			image: S21.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '38.56kb'
-		},
-		{
-			id: 2,
-			name: 'Edge.png',
-			image: Edge.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '33.56kb'
-		},
-		{
-			id: 1,
-			name: 'G60.png',
-			image: G60.src,
-			type: 'image',
-			updatedAt: '11/01/2023 - Gustavo',
-			size: '38.56kb'
-		},
-	]);
+	const [items, setItems] = useState<Array<IAssets>>();
+	
+	useEffect(() => {
+        const fetchAssets = async () => {
+            try {
+                const fetchedAssets = await GetAssetsByClient(client.uuidv);
+				setItems(fetchedAssets);
+            } catch (error) {
+                console.error('Error fetching assets:', error);
+            }
+        };
+
+        fetchAssets();
+    }, []);
 
 	const logoFromType = (type: 'image' | 'sheet') => {
 		return type === 'image' ? (
@@ -120,7 +39,11 @@ const Driver = () => {
 		);
 	};
 
-	
+	const getSize = (b64: string) => {
+		var base64WithoutHeader = b64.replace(/^data:image\/[a-z]+;base64,/, '');
+		var decodedBytes = atob(base64WithoutHeader);
+		return decodedBytes.length;
+	}
 
 	const renderItemsView = () => {
 		if (isListView) {
@@ -136,13 +59,22 @@ const Driver = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{items.map((item) => (
+							{items?.map((item) => (
 								<tr key={item.id}>
-									<td className="imgTableData">
-										<img
-											src={item.image}
-											alt="img from api"
-										/>{' '}
+									<td className="imgTableData" >
+										<div style={{width: '130px', display: 'flex', justifyContent: 'center'}}>
+											<img
+												src={item.image}
+												alt="img from api"
+												style={{
+													zIndex: 999,
+													marginRight: '30px',
+													maxWidth: '100px',
+													maxHeight: '100px',
+													backgroundColor: item.name === 'Brasilia.png' || item.name === 'Fortaleza.png' ? 'black' : 'transparent'
+												}}
+											/>
+										</div>
 										{item.name}
 									</td>
 									<td>{logoFromType(item.type as any)}</td>
@@ -158,16 +90,16 @@ const Driver = () => {
 
 						<ul>
 							<li>
-								<span>Proprietario: </span> Gustavo
+								<span>Proprietario: </span> Renimate Demo
 							</li>
 							<li>
-								<span>Proprietario da empreasa: </span> Vivo
+								<span>Proprietario da empresa: </span> {client.name}
 							</li>
 							<li>
-								<span>Criado: </span> 07/11/2023
+								<span>Criado: </span> 01/05/2024
 							</li>
 							<li>
-								<span>Modificado: </span> {Date.now()}
+								<span>Modificado: </span> 01/05/2024
 							</li>
 							<li>
 								<span>Tamanho: </span> 100kb
@@ -180,7 +112,7 @@ const Driver = () => {
 
 		return (
 			<section className="gridView">
-				{items.map((item) => (
+				{items?.map((item) => (
 					<figure key={item.id}>
 						<img src={item.image} alt="img from api" />
 						<figcaption>
@@ -219,8 +151,8 @@ const Driver = () => {
 			<div className="breadcrumbContainer">
 				<span>
 					<Breadcrumb
-						goto={['/assets', '/assets/vivo']}
-						paths={['Meus assets', 'Vivo', 'Driver']}
+						goto={['/assets', '/assets/' + client.name]}
+						paths={['Meus assets', client.name, 'Driver']}
 					/>
 				</span>
 

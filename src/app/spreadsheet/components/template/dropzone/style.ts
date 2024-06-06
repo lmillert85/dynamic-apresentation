@@ -1,12 +1,10 @@
 import vars from '@dynamic/styles/colors.style';
 import styled from 'styled-components';
-import PaperBackground from '../../../../../../public/paperBackground.png';
 
 const ContainerDropzone = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url(${PaperBackground.src});
     background-size: cover;
     padding-bottom: 120px;
 

@@ -17,9 +17,9 @@ const ScrollView: React.FC<I.PreviewDataChild> = ({ data }) => {
     return (
 		<S.Container>
 			{informations.map((dataInfo, index) => {
-                // const html = buildCreativeLine(document, dataInfo, index);
-                return <Campaigns index={index} key={uuidv4()} />
-            })}
+        // const html = buildCreativeLine(document, dataInfo, index);
+        return <Campaigns index={index} key={uuidv4()} />
+      })}
 		</S.Container>
 	);
 };

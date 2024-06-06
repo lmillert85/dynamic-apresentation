@@ -5,7 +5,7 @@ const nextConfig = {
 		styledComponents: true
 	},
 	eslint: {
-		ignoreDuringBuilds: true,
+		ignoreDuringBuilds: true
 	},
 	distDir: 'build',
 	typescript: {
@@ -16,6 +16,7 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 	webpack: (config,) => {
+		config.optimization.minimize = false;
 		config.module.rules.push({
 			test: /\.html$/,
 			use: 'html-loader'

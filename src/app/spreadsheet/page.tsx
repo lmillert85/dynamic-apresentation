@@ -4,7 +4,7 @@ import Tabs from '@dynamic/components/tabs';
 import { useLayoutEffect, useState } from 'react';
 import * as S from './style';
 import * as I from '@dynamic/@types/tabSelectedType.interface';
-import Spreadsheet from '@dynamic/app/spreadsheet/components/sheets';
+import Spreadsheet from '@dynamic/pages/spreadsheet/components/sheets';
 import Template from './components/template';
 import SpreadsheetPreview from './components/preview';
 import { useSearchParams } from 'next/navigation';

@@ -6,21 +6,26 @@ import { useLateralMenu } from './context/lateralMenuContext';
 import { useRouter } from 'next/navigation';
 import * as E from './context/enum';
 import * as S from './style';
+import vars from '@dynamic/styles/colors.style';
+import { selectedRoute, setSelectedRoute } from '@dynamic/services/feedService';
+import { useState } from 'react';
+import { useDynamic } from '@dynamic/contexts/dynamic';
 
 const LateralMenu = () => {
-	const { handleChangeSelectedRoute, selectedRoute } = useLateralMenu();
+	const [selected, setSelected] = useState(selectedRoute());
+	const { teste, setTeste } = useDynamic();
 	const router = useRouter();
-
 	const handleChangeRoute = (
 		route: string,
 		contextChange: E.contextTypes
 	) => {
-		handleChangeSelectedRoute(contextChange);
+		setSelectedRoute(contextChange);
+		setSelected(contextChange);
 		router.push(route);
 	};
-	
+
 	return (
-		<S.LateralMenuContainer selected={selectedRoute}>
+		<S.LateralMenuContainer>
 			<div>
 				<TbSquareChevronRightFilled className="dynamicIcon" />{' '}
 				<p>Dynamic ads</p>
@@ -28,14 +33,18 @@ const LateralMenu = () => {
 
 			<ul>
 				<li
-					onClick={() =>
+					style={{background: selectedRoute() === 'newCampaign' ? vars.colors.orange : '', color: selectedRoute() === 'newCampaign' ? 'white' : ''}}
+					onClick={() => {
+						setTeste(teste + 1);
 						handleChangeRoute('/', E.contextTypes.NEW_CAMPAIGN)
+						}
 					}
 					id={E.contextTypes.NEW_CAMPAIGN}
 				>
 					<FiEdit className="iconList" /> <p>Criar campanha</p>
 				</li>
 				<li
+					style={{background: selectedRoute() === 'myCampaigns' ? vars.colors.orange : '', color: selectedRoute() === 'myCampaigns' ? 'white' : ''}}
 					onClick={() =>
 						handleChangeRoute(
 							'/myCampaigns',
@@ -48,6 +57,7 @@ const LateralMenu = () => {
 					<p>Minhas campanhas</p>
 				</li>
 				<li
+					style={{background: selectedRoute() === 'myTemplates' ? vars.colors.orange : '', color: selectedRoute() === 'myTemplates' ? 'white' : ''}}
 					onClick={() =>
 						handleChangeRoute(
 							'/myTemplates',
@@ -59,6 +69,7 @@ const LateralMenu = () => {
 					<BsStar className="iconList" /> <p>Meus templates</p>
 				</li>
 				<li
+					style={{background: selectedRoute() === 'assets' ? vars.colors.orange : '', color: selectedRoute() === 'assets' ? 'white' : ''}}
 					onClick={() =>
 						handleChangeRoute('/assets', E.contextTypes.ASSETS)
 					}

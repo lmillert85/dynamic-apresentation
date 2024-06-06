@@ -2,10 +2,13 @@ import vars from '@dynamic/styles/colors.style';
 import styled from 'styled-components';
 
 const Container = styled.div`
+    width: 90%;
+
     .previews {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 30px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 30px 60px 0 0;
     }
 
     .pages {

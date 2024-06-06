@@ -4,20 +4,25 @@ import { BsDot } from 'react-icons/bs';
 import { FiSearch } from 'react-icons/fi';
 import Breadcrumb from '@dynamic/components/breadcrumb';
 import * as S from './style';
-import { GetCampaign, GetSheets } from '@dynamic/services/feedService';
+import { GetCampaign, GetClients, GetSheets } from '@dynamic/services/feedService';
 import { useParams, useRouter } from 'next/navigation';
 import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
-import { ICampaign } from '@dynamic/services/interface';
+import { ICampaign, IFormats } from '@dynamic/services/interface';
 
 const ClientCampaigns = () => {
     const spreadsheetData = useSpreadsheetData();
-	const { campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
+	const { setSelectedFormat, campaign, handleChangeActiveCampaign, handleChangeCampaign } = useCampaign();
     const router = useRouter();
+    const params = useParams();
+    const uuidv_client = params.client;
+    const client = GetClients(uuidv_client.toString());
     useEffect(() => {
         const fetchCampaigns = async () => {
             try {
-                const fetchedCampaigns = await GetCampaign('asd');
+                const fetchedCampaigns = await GetCampaign(client.uuidv);
+                console.log('fetchedCampaigns')
+                console.log(fetchedCampaigns)
                 handleChangeCampaign(fetchedCampaigns);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
@@ -29,9 +34,9 @@ const ClientCampaigns = () => {
 
     const handleClick = async (uuidv: string, index: number) => {
         try {
-            
             const sheets = await GetSheets(uuidv);
-            spreadsheetData.setSpreadsheetData(sheets);
+            setSelectedFormat(0);
+            spreadsheetData.setSpreadsheetData(sheets.sheets);
             handleChangeActiveCampaign(index);
             router.push('/spreadsheet/' + uuidv)
         } catch (error) {
@@ -39,12 +44,19 @@ const ClientCampaigns = () => {
         }
     };
 
+    const getAproved = (item: ICampaign, type: string) => {
+        var amount = 0;
+        item.template.formats.forEach((formats: IFormats) => {
+            amount += type === 'aproved' ? formats.aproved.length : formats.reproved.length;
+        });
+        return amount;
+    }
+
     return (
         
         <S.Container>
             <section>
                 <h1>Minhas campanhas</h1>
-
                 <div>
                     <p>Filtrar por </p>
 
@@ -62,7 +74,7 @@ const ClientCampaigns = () => {
                 </div>
             </section>
 
-            <Breadcrumb paths={['Minhas campanhas', 'TIM']} goto={['/myCampaigns', '/myCampaigns/tim']} />
+            <Breadcrumb paths={['Minhas campanhas', client.name]} goto={['/myCampaigns', '/myCampaigns/' + client.name]} />
 
             <table>
                 <thead>
@@ -80,12 +92,12 @@ const ClientCampaigns = () => {
                         <tr key={index}>
                             <td>{item.name}</td>
                             <td>{item.created}</td>
-                            <td>{item.amount * item.template.formats.length}</td>
+                            <td>{item.amount * item.template.formats.filter(x => x.active === true).length}</td>
                             <td className="status">
-                                {item.aproved.length}
-                                <BsDot className="statusGreen" /> {item.reproved.length} <BsDot className="statusRed" />
+                                {getAproved(item, 'aproved')}
+                                <BsDot className="statusGreen" /> {getAproved(item, 'reproved')} <BsDot className="statusRed" />
                             </td>
-                            <td>{item.template.formats.length}</td>
+                            <td>{item.template.formats.filter((x:IFormats) => x.active === true).length}</td>
                             <td className="btnWrapper">
                                 <button style={{ cursor: 'pointer' }} onClick={() => handleClick(item.uuidv, index)}>
                                     Acessar

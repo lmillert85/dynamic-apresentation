@@ -117,6 +117,7 @@ const Container = styled.section`
     .imgTableData {
         display: flex;
         align-items: center;
+        height: 150px
     }
 
     .gridView {
@@ -205,6 +206,30 @@ const Container = styled.section`
             display: flex;
         }
 	}
+
+    .img-container {
+        position: relative;
+        display: inline-block;
+    }
+    .img-container::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                    linear-gradient(135deg, #ccc 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #ccc 75%),
+                    linear-gradient(135deg, transparent 75%, #ccc 75%);
+        background-size: 20px 20px; /* ajuste o tamanho conforme necessário */
+        background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+        z-index: 1;
+    }
+    .img-container img {
+        position: relative;
+        z
 `;
 
 export { Container };

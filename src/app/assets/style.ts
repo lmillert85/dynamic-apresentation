@@ -26,6 +26,8 @@ const Container = styled.div`
     .title > button > .iconPlus {
         font-size: 18pt;
     }
+
+    
 `;
 
 export { Container };

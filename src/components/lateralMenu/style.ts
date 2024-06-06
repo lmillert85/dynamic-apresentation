@@ -2,11 +2,7 @@ import vars from '@dynamic/styles/colors.style';
 import styled from 'styled-components';
 import * as E from './context/enum';
 
-interface ILateralMenuStyle {
-    selected: E.contextTypes
-}
-
-export const LateralMenuContainer = styled.aside<ILateralMenuStyle>`
+export const LateralMenuContainer = styled.aside`
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -50,10 +46,6 @@ export const LateralMenuContainer = styled.aside<ILateralMenuStyle>`
         margin-right: 8px;
     }
 
-    // #${props => props.selected} {
-    //   background-color: ${vars.colors.orange};
-    //   color: #fff;
-    // }
 
     @media screen and (max-width: 768px) {
         width: 100%;

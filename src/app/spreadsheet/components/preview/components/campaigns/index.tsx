@@ -11,6 +11,7 @@ import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { Compress, getBase64Size, toImage } from '@dynamic/helpers/printElement';
 import { PostAproved } from '@dynamic/services/feedService';
+import { ICampaign } from '@dynamic/services/interface';
 
 const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	const [review, setReview] = useState<I.reviewType>('InAnalysis');
@@ -18,27 +19,38 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	const { setIsOpen, setRow, row } = useAttachModal();
 	const spreadsheetData = useSpreadsheetData();
 	const { activeCampaign, campaign, handleChangeCampaign, selectedFormat, setSelectedFormat } = useCampaign();
-	console.log('campaign[activeCampaign]')
-	console.log(campaign)
 	const html = activeCampaign !== null ? buildCreativeLine(campaign[activeCampaign].template.formats[selectedFormat], spreadsheetData.spreadsheetData[index].elementos, index) : "";
 	
 	const handleReviewCampaign = async (index: number, rev: I.reviewType) => {
-		if (activeCampaign === null) return;		
+		if (activeCampaign === null) return;
 		var copyCampaign = JSON.parse(JSON.stringify(campaign));
-		var indexAproved : number = copyCampaign[activeCampaign].aproved.findIndex(x => x === index);
-		var indexReproved : number = copyCampaign[activeCampaign].reproved.findIndex(x => x === index);
+		console.log('copyCampaign')
+		console.log(copyCampaign)
+		console.log('spreadsheetData.spreadsheetData[0]')
+		console.log(spreadsheetData.spreadsheetData[0])
+		var uuidv_campaign = JSON.parse(JSON.stringify(spreadsheetData.spreadsheetData[0].uuidv_campaign))
+		console.log('uuidv_campaign')
+		console.log(uuidv_campaign)
+		const _campaign = copyCampaign.findIndex((x: ICampaign) => x.uuidv === uuidv_campaign);
+		console.log('_campaign')
+		console.log(_campaign)
+		var c = copyCampaign[_campaign].template.formats[selectedFormat];
+		console.log('c')
+		console.log(c)
+		var indexAproved : number = c.aproved.findIndex((x: number) => x === index);
+		var indexReproved : number = c.reproved.findIndex((x: number) => x === index);
 
 		if (rev === 'Approved') {
-			if (indexAproved === -1) copyCampaign[activeCampaign].aproved.push(index)
-			else copyCampaign[activeCampaign].aproved.splice(indexAproved, 1);
-			if (indexReproved !== -1) copyCampaign[activeCampaign].reproved.splice(indexReproved, 1);
-			await PostAproved(copyCampaign[activeCampaign].aproved, rev, "uuidv");
+			if (indexAproved === -1) c.aproved.push(index)
+			else c.aproved.splice(indexAproved, 1);
+			if (indexReproved !== -1) c.reproved.splice(indexReproved, 1);
+			await PostAproved(c.aproved, rev, uuidv_campaign, selectedFormat);
 
 		} if (rev === 'Reproved') {
-			if (indexReproved === -1) copyCampaign[activeCampaign].reproved.push(index)
-			else copyCampaign[activeCampaign].reproved.splice(indexReproved, 1);
-			if (indexAproved !== -1) copyCampaign[activeCampaign].aproved.splice(indexAproved, 1);
-			await PostAproved(copyCampaign[activeCampaign].reproved, rev, "uuidv");
+			if (indexReproved === -1) c.reproved.push(index)
+			else c.reproved.splice(indexReproved, 1);
+			if (indexAproved !== -1) c.aproved.splice(indexAproved, 1);
+			await PostAproved(c.reproved, rev, uuidv_campaign, selectedFormat);
 		}
 		handleChangeCampaign(copyCampaign);
 	};	
@@ -53,10 +65,10 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 	function handleFindStatus(index: number, rev: string) {
 		if (activeCampaign === null) return false;
 		if (rev === 'Approved') {
-			var i : number = campaign[activeCampaign].aproved.findIndex(x => x === index);
+			var i : number = campaign[activeCampaign].template?.formats[selectedFormat].aproved.findIndex((x: number) => x === index);
 			return i !== -1;
 		} else if (rev === 'Reproved') {
-			var i : number = campaign[activeCampaign].reproved.findIndex(x => x === index);
+			var i : number = campaign[activeCampaign].template?.formats[selectedFormat].reproved.findIndex((x: number) => x === index);
 			return i !== -1;
 		}
 		return true;
@@ -81,7 +93,7 @@ const Campaigns: React.FC<I.CampaignProps> = ({ index }) => {
 				</span>
 			</section>
 			<InnerHTML html={html} width={campaign[activeCampaign].template.formats[selectedFormat].width} height={campaign[activeCampaign].template.formats[selectedFormat].height} backup={false} />
-			<InnerHTML html={html} width={campaign[activeCampaign].template.formats[selectedFormat].width} height={campaign[activeCampaign].template.formats[selectedFormat].height} backup={true} index={index} />
+			<InnerHTML html={html} width={campaign[activeCampaign].template.formats[selectedFormat].width} height={campaign[activeCampaign].template.formats[selectedFormat].height} backup={true} index={index} fonts={campaign[activeCampaign].template.font}/>
 
 			<button type="button" onClick={() => handleEditButtonClick()}>
 				Editar

@@ -4,7 +4,7 @@ import * as S from './style';
 import * as I from './interface';
 import { FaArrowRight } from 'react-icons/fa';
 import { useRouter, useParams } from 'next/navigation';
-import { GetClients } from '@dynamic/services/feedService';
+import { ListClients } from '@dynamic/services/feedService';
 import { IClients } from '@dynamic/services/interface';
 
 const ClientList: React.FC<I.RouteType> = ({ goto })  => {
@@ -14,7 +14,7 @@ const ClientList: React.FC<I.RouteType> = ({ goto })  => {
 	useEffect(() => {
         const fetchClients = async () => {
             try {
-                const fetchedCampaigns = await GetClients('uuidv');
+                const fetchedCampaigns = await ListClients('uuidv');
                 setClients(fetchedCampaigns);
             } catch (error) {
                 console.error('Error fetching clients:', error);
@@ -37,7 +37,7 @@ const ClientList: React.FC<I.RouteType> = ({ goto })  => {
 					onKeyDown={() => null}
                     key={Math.random()}
 				>
-					<img style={{width: '200px'}} src={client.logo} alt="client" />
+					<img style={{width: '170px'}} src={client.logo} alt="client" />
 					<figcaption>
 						<p>{client.name}</p> <FaArrowRight />
 					</figcaption>

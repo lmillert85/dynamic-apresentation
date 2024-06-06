@@ -12,7 +12,9 @@ import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { useRouter } from 'next/navigation';
 import { IFormats } from '@dynamic/services/interface';
-import { PostCampaign } from '@dynamic/services/feedService';
+import { PostCampaign, newCampaign, newClient } from '@dynamic/services/feedService';
+import { useAttachModal } from '@dynamic/contexts/attachModal';
+import InnerHTML from '@dynamic/components/innerHTML';
 const ChooseTemplate = (): JSX.Element => {
 	
 	const [selectedTemplate, setSelectedTemplate] =
@@ -21,12 +23,11 @@ const ChooseTemplate = (): JSX.Element => {
 			template: ''
 		});
 	const router = useRouter();
-	const { clients, setClients, newCampaign, setNewCampaign, activeClient, setActiveClient } = useClientData();
 	const { listaTemplates, activeTemplate, setActiveTemplate } = useTemplateData();
 	const spreadsheetData = useSpreadsheetData();
-	const { activeCampaign, campaign, handleChangeCampaign } = useCampaign();
 	const [ modal, setModal ] = useState<boolean>(false);
 	const [ disabledAvancar, setDisabledAvancar ] = useState(false);
+	const [ show, setShow ] = useState<IFormats | null>(null);
 
 	const handleTemplateChoosed = (): void => {
 		setModal(true);
@@ -42,11 +43,25 @@ const ChooseTemplate = (): JSX.Element => {
 
 	const handleClick = async () : Promise<void> => {
 		if (activeTemplate) {
-			await PostCampaign(
+			var uuidv_client = '';
+			switch(newClient()) {
+				case 'TIM':
+					uuidv_client = '422eb33a-a5fb-4922-9424-5e51ba94ba49';
+					break;
+				case 'MAGALU':
+					uuidv_client = '35g534gh-h654h-f54f345-v534v-c453c45';
+					break;
+				case 'POSITIVO':
+					uuidv_client = '4f32ged-d12xf-h7hj47-xe12df-34f2gw';
+					break;
+			}
+
+			const c = await PostCampaign(
 				{
-					uuidv: "1e0d824c-5049-456b-a9df",
-					client: activeClient.name,
-					name: newCampaign.name,
+					uuidv: "",
+					uuidv_template: activeTemplate.name,
+					uuidv_client: uuidv_client,
+					name: newCampaign(),
 					aproved: [],
 					reproved: [],
 					created: "Reanimate Demo",
@@ -56,7 +71,7 @@ const ChooseTemplate = (): JSX.Element => {
 					formats: []
 				}
 			)
-			router.push('/myCampaigns/1e0d824c-5049-456b-a9df')
+			router.push("/myCampaigns/" + uuidv_client)
 		}
 	}
 
@@ -72,9 +87,19 @@ const ChooseTemplate = (): JSX.Element => {
 						<div style={{padding: '30px', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
 							{
 								activeTemplate?.formats.map((item: IFormats, index: number) => (
-									<div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
+									<div
+										style={{display: 'flex', flexDirection: 'row', marginBottom: '10px', position: 'relative', background: show === item ? '#fddcc2' : '', borderRadius: '10px' }}										
+										onMouseEnter={() => setShow(item)}
+										onMouseLeave={() => setShow(null)}
+										>
 										<input onChange={() => handleChangeFormat(index)} defaultChecked={item.active} type='checkbox'></input>
-										<span>{item.width}x{item.height}</span>
+										<span>{item.width}x{item.height}</span>									
+										{
+											show === item ?
+											<div style={{position: 'absolute', top: -item.height / 2 + 50, right: -item.width - 150}}>
+												<InnerHTML html={item.html} width={item.width} height={item.height} backup={false} />
+											</div>  : <></>
+										}
 									</div>
 								))
 							}

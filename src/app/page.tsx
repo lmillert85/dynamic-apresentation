@@ -7,20 +7,22 @@ import { FaPlus } from 'react-icons/fa';
 import { AiOutlineRight } from 'react-icons/ai';
 import Steps from '@dynamic/components/steps';
 import { useClientData } from '@dynamic/contexts/client';
-import { GetCampaign, GetClients } from '@dynamic/services/feedService';
+import { GetCampaign, ListClients, newCampaign, newClient, setNewCampaign, setNewClient, setSelectedRoute} from '@dynamic/services/feedService';
+import { useCampaign } from '@dynamic/contexts/campaign';
+import { useAttachModal } from '@dynamic/contexts/attachModal';
 
 export default function Home() {
 	const [btnChoose, setBtnChoose] = useState<'template' | 'custom'>();
 	const refInput = useRef(null);
 	const refClient = useRef(null);
     const router = useRouter();
-	const { clients, setNewCampaign, setActiveClient, setClients } = useClientData();
+	const { clients, setActiveClient, setClients } = useClientData();
 	const [ disabledAvancar, setDisabledAvancar ] = useState(true);
 	
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const fetchedClients = await GetClients('asd');
+                const fetchedClients = await ListClients('asd');
                 setClients(fetchedClients);
             } catch (error) {
                 console.error('Error fetching clients:', error);
@@ -29,20 +31,10 @@ export default function Home() {
 
         fetchClients();
     }, []);
-	
     const handleChangeRoute = () => {
-		const name = refClient.current.value;
-		const campaign = refInput.current.value;
-		if (!name || !btnChoose || !campaign) return;
-		const index = clients.findIndex((x: { name: string; }) => x.name === name);
-		setNewCampaign({
-			name: campaign,
-			client: "Reanimate Demo",
-			client_uuidv: "0"
-		});
-		console.log(clients, index)
-		setActiveClient(clients[index]);
-		       btnChoose === 'template' && router.push('chooseTemplate');
+		setNewCampaign(refInput.current.value);
+		setNewClient(refClient.current.value)
+		btnChoose === 'template' && router.push('chooseTemplate');
         btnChoose === 'custom' && router.push('spreadsheet?template=custom');
     };
 

@@ -2,13 +2,20 @@ import { IFormats } from "@dynamic/services/interface";
 
 export interface ITemplate {
 	banner: string;
+	uuidv: string;
 	template: string;
 	elementos: Array<ITemplateElement>;
     aproved: boolean | null;
 	name: string;
     width: any;
     height: any;
-    formats: Array<IFormats>
+    formats: Array<IFormats>,
+    fonts: any | null
+}
+
+export interface IFonts {
+    fontfamily: string,
+    src: string
 }
 
 export interface ITemplateElement {

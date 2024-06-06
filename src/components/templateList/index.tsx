@@ -13,8 +13,6 @@ const TemplateList: React.FC<I.TemplateProps> = ({
 }) => {
 	const router = useRouter();
 	const { listaTemplates, setListaTemplates, activeTemplate, setActiveTemplate } = useTemplateData();
-	console.log('listaTemplates')
-	console.log(listaTemplates)
     useEffect(() => {
         const fetchCampaigns = async () => {
             try {

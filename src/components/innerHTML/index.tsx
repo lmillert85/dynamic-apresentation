@@ -8,12 +8,13 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	if (backup) {
 		html = html.replaceAll("animabanner();", "//animaBanner();");
+		html = html.replaceAll("start && animabanner()", "//start && animabanner()");
 		html = html.replaceAll("//backup();", "backup();");
+		html = html.replaceAll("0.75px", "0");
+		html = html.replaceAll(".75px", "0");
 	}
-	console.log('width', width)
-	console.log('height', height)
-	useEffect(() => {
 
+	useEffect(() => {
 		const iframe = document.createElement('iframe');
 		iframe.srcdoc = html.toString();
         iframe.style.width = `${width}px`;
@@ -38,7 +39,7 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
         }
 	}, [html, isSelected]);
 
-	return <Container style={{position: backup ? 'absolute' : 'relative', left: '0', top: '0', zIndex: backup ? -9999 : 1}} id={backup ? `backup-iframe-${index}` : ''} key={html} ref={iframeRef} />;
+	return <Container style={{position: backup ? 'absolute' : 'relative', left: '0', top: '0', zIndex: backup ? -99999 : 1}} id={backup ? `backup-iframe-${index}` : ''} key={html} ref={iframeRef} />;
 };
 
 export default InnerHTML;

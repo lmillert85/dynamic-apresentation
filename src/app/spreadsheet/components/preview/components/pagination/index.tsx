@@ -18,8 +18,6 @@ const PreviewPagination = () => {
 	const [pages, setPages] = useState<Array<JSX.Element>>([]);
 	const previewEditModal = usePreviewEditModalContext();
 	const { activeCampaign, campaign, handleChangeActiveCampaign, handleChangeCampaign, currentPage, setCurrentPage, selectedFormat, setSelectedFormat } = useCampaign();
-	console.log('selectedFormat')
-	console.log(selectedFormat)
 
 	const renderPages = () => {
 		const helper = [];

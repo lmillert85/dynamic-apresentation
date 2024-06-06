@@ -2,42 +2,30 @@
 
 import * as S from './style';
 import React, { useRef, useState } from 'react';
-import { GetCampaign, GetSheets } from '@dynamic/services/feedService';
-import { useRouter } from 'next/navigation';
-// import { ReturnColumnType } from '../components/sheets/helper/columnType';
-import { internationalizationContextMenu } from '../components/sheets/helper/internationalization';
-import { ContainerSpreadsheet } from '../components/sheets/style';
-import ControlButtons from '../components/sheets/components/controlButtons';
-import MainSelectedCell from '../components/sheets/components/mainSelectedCell';
-import * as I from '../components/sheets/interface';
 import 'react-datasheet-grid/dist/style.css';
-import { ReturnColumnType } from '../components/sheets/helper/columnType';
-import { useSpreadsheetData } from '@dynamic/contexts/spreadsheetData';
 import Tabs from '@dynamic/components/tabs';
 import * as IT from '@dynamic/@types/tabSelectedType.interface';
 import Spreadsheet from '../components/sheets';
-import InnerHTML from '@dynamic/components/innerHTML';
 import SpreadsheetPreview from '../components/preview';
 import { useCampaign } from '@dynamic/contexts/campaign';
 import { IFormats } from '@dynamic/services/interface';
+import InnerHTML from '@dynamic/components/innerHTML';
 
 function Creative (uuidv: string) {
 	const { campaign, activeCampaign, selectedFormat, setSelectedFormat } = useCampaign();
 	const [tabView, setTabView] =
 		useState<IT.TabSelectedType['tabSelected']>('sheets');
-    const html = activeCampaign === null ? "" : campaign[activeCampaign].template?.banner;
-	    console.log('campaign[activeCampaign].template Creative')
-	    console.log(campaign[activeCampaign].template)
 	return (
 		<S.Container>
-			<Tabs tabSelected={tabView} setTabView={setTabView} />
+			<Tabs tabSelected={tabView} setTabView={setTabView} tabFormatSelected={null} />
             <div style={{display: 'flex', position: 'absolute', top: 39, left: 498}}>
                 {
                     tabView === 'preview' ?
-                    campaign[activeCampaign].template.formats.map((item: IFormats, index: number) => (
+                    activeCampaign === null ? <></> :
+                    campaign[activeCampaign].template?.formats.map((item: IFormats, index: number) => (
                         item.active ?
                         <div style={{
-                            background: selectedFormat === index ? '#DD1B58' : 'white',
+                            background: selectedFormat === index ? '#ff9e53' : 'white',
                             color: selectedFormat === index ? '#f7f7f7' : '#7d7d7d',
                             cursor: 'pointer',
                             width: '150px',
@@ -62,8 +50,13 @@ function Creative (uuidv: string) {
                 tabView === 'preview' ?
                     <SpreadsheetPreview/>:
                 tabView === 'template' ?
-                    <div style={{marginTop: '50px'}}>
-                        {/* <InnerHTML html={html} width={300} height={100} backup={false} /> */}
+                    <div style={{marginTop: '50px', display: 'flex', justifyContent: 'center'}}>
+                        {campaign[activeCampaign].template.formats.map((t: IFormats) => (
+                            t.active ?
+                                <InnerHTML html={t.html} width={t.width} height={t.height} backup={false} />
+                                :
+                                <></>
+                        ))}
                     </div> :
                 <></>
             }
