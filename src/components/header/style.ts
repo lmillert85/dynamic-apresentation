@@ -4,9 +4,13 @@ import styled from "styled-components";
 export const HeaderContainer = styled.header`
     display: flex;
     justify-content: space-between;
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: #fbff5a;
     align-items: center;
     padding: 10px 30px;
+    justify-content: center;
+    height: 58px;
+    border-bottom: 1px solid #dbdbdb;
 
     .iconColorOrange {
         color: ${vars.colors.orange};
@@ -33,7 +37,7 @@ export const HeaderContainer = styled.header`
         display: flex;
         align-items: flex-end;
         padding: 5px;
-        margin-left: 13px;
+        margin-left: 0px;
     }
 
     @media screen and (max-width: 500px) {
