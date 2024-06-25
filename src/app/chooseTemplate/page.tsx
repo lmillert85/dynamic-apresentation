@@ -45,14 +45,8 @@ const ChooseTemplate = (): JSX.Element => {
 		if (activeTemplate) {
 			var uuidv_client = '';
 			switch(newClient()) {
-				case 'TIM':
+				case 'Santander':
 					uuidv_client = '422eb33a-a5fb-4922-9424-5e51ba94ba49';
-					break;
-				case 'MAGALU':
-					uuidv_client = '35g534gh-h654h-f54f345-v534v-c453c45';
-					break;
-				case 'POSITIVO':
-					uuidv_client = '4f32ged-d12xf-h7hj47-xe12df-34f2gw';
 					break;
 			}
 

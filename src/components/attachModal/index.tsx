@@ -18,6 +18,8 @@ const AttachModal = () => {
         const fetchAssets = async () => {
             try {
                 const fetchedAssets = await GetAssets(spreadsheetData.spreadsheetData[0].uuidv_campaign);
+				console.log('fetchedAssets')
+				console.log(fetchedAssets)
 				setListAssets(fetchedAssets);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
@@ -27,26 +29,6 @@ const AttachModal = () => {
         fetchAssets();
     }, []);
 
-	// const assetsThumb = [
-	// 	{src: Brasilia, fileName: "Brasilia.png"},
-	// 	{src: Fortaleza, fileName: "Fortaleza.png"}, 
-	// 	{src: Fold, fileName: "Fold.png"},
-	// 	{src: Galaxy, fileName: "Galaxy.png"},
-	// 	{src: Iphone, fileName: "Iphone.png"},
-	// 	{src: Motorola, fileName: "Motorola.png"},
-	// 	{src: Isa_1, fileName: "Isa_01.png"},
-	// 	{src: Isa_2, fileName: "Isa_02.png"},
-	// 	{src: Isa_3, fileName: "Isa_03.png"},
-	// 	{src: Mion_1, fileName: "Mion_01.png"},
-	// 	{src: Mion_2, fileName: "Mion_02.png"},
-	// 	{src: Mion_3, fileName: "Mion_03.png"},
-	// 	{src: Geladeira, fileName: "s1_geladeira3.png"},
-	// 	{src: Micro, fileName: "s1_micro2.png"},
-	// 	{src: Part1, fileName: "s1_particula1.png"},
-	// 	{src: Part2, fileName: "s1_particula2.png"},
-	// 	{src: Part3, fileName: "s1_particula3.png"},
-	// 	{src: TV, fileName: "s1_tv1.png"}
-	// ];
 	
 	const { activeCampaign, campaign, handleChangeCampaign, selectedFormat } = useCampaign();
 
