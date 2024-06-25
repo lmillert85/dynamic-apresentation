@@ -26,6 +26,7 @@ function getAsset(formato: IFormats, fileName: string) {
 }
 
 export function getElementsTemplate(banner: string) {
+	
 	const regex = /<script id="dynamicScript">([\s\S]*?)<\/script>/;
 	const elementos = regex
 	.exec(banner)![0]
