@@ -5,6 +5,7 @@ import * as S from './style';
 import LogoReanimate from '../../../public/logoreanimatenew.png';
 import logoartmaker4 from '../../../public/logoartmaker4.png'
 import { Divider } from '@mui/material';
+import LogoHavas from '../../../public/havas.svg';
 
 const Header = () => {
 	return (
@@ -13,7 +14,8 @@ const Header = () => {
 				<HomeIcon className="iconColorOrange" fontSize="large" />
 				<LogoutIcon className="iconColorOrange" fontSize="large" />
 			</div> */}
-			<img src={logoartmaker4.src} alt="logoartmaker4" style={{marginRight: '15px'}}/>
+			<img src={LogoHavas.src} alt="logoartmaker4" style={{marginRight: '15px', width: '100px'}}/>
+
 			<Divider style={{width: '28px', margin: '0 0 0 0', transform: 'rotate(90deg)'}}/>
 			{/* <figure id="reanimate-header-logo"> */}
 				{/* <img
