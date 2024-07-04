@@ -12,6 +12,9 @@ const InnerHTML = ({ html, width, height, backup, isSelected = false, index }: I
 		html = html.replaceAll("//backup();", "backup();");
 		html = html.replaceAll("0.75px", "0");
 		html = html.replaceAll(".75px", "0");
+	} else {
+		console.log('html')
+		console.log(html)
 	}
 
 	useEffect(() => {

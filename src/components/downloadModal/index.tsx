@@ -288,7 +288,6 @@ const DownloadModal = () => {
 					<label>
 						<span>Pack de html </span>
 						<Switch
-							disabled={true}
 							checked={htmlPack}
 							onChange={() => setHtmlPack(!htmlPack)}
 						/>
@@ -297,7 +296,6 @@ const DownloadModal = () => {
 					<label>
 						<span>Pack de video </span>
 						<Switch
-							disabled={true}
 							checked={videoPack}
 							onChange={() => setVideoPack(!videoPack)}
 						/>

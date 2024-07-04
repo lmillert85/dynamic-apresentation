@@ -48,6 +48,9 @@ const ChooseTemplate = (): JSX.Element => {
 				case 'Santander':
 					uuidv_client = '422eb33a-a5fb-4922-9424-5e51ba94ba49';
 					break;
+				case 'Assai':
+					uuidv_client = '0930194-qf4-7786-1231-8c90a890asd43';
+					break;
 			}
 
 			const c = await PostCampaign(
