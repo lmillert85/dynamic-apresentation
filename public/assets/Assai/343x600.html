@@ -443,15 +443,16 @@
   //
   /*[dynamic_content]*/
   //
-
-  if (el(".s1_valor").textContent.length === 4) {
-    el(".s1_valor").style.left = "242px";
-    el(".s1_cifrao").style.left = "218px";
-  }
-  if (el(".s1_valor").textContent.length === 6) {
-    el(".s1_valor").style.fontSize = "42px";
-    el(".s1_valor").style.top = "488px";
-  }
+  setTimeout(function () {
+    if (el(".s1_valor").textContent.length === 4) {
+      el(".s1_valor").style.left = "242px";
+      el(".s1_cifrao").style.left = "218px";
+    }
+    if (el(".s1_valor").textContent.length === 6) {
+      el(".s1_valor").style.fontSize = "42px";
+      el(".s1_valor").style.top = "488px";
+    }
+  }, 1)
 
   function backup() {
     timeline.animationElements("cortina_out", [
